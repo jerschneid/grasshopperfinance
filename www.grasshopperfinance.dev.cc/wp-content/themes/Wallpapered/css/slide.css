@@ -1,0 +1,63 @@
+/* sliding panel */
+#toppanel { position: absolute; top: 0; left: 0; border-bottom: 1px solid #b3b3b3; width: 100%; z-index: 999; text-align: center; margin-left: auto; margin-right: auto; background: #252525; box-shadow: 0 0 15px #000000; }
+#loginpanel h1, #registerpanel h1 { font-size: 1.6em;	padding: 5px 0 10px; margin: 0;	color: white; text-align: left; }
+#loginpanel h2, #registerpanel h2 { font-size: 1.2em;	padding: 10px 0 5px; margin: 0;	color: white; text-align: left; }
+#loginpanel p, #registerpanel p {	margin: 5px 0; padding: 0; }
+#toppanel a, #loginpanel a, #registerpanel a {	color: #3ae2c3; }
+#loginpanel a:hover, #registerpanel a:hover {	color: white; }
+#loginpanel a-lost-pwd { display: block; float: left; }
+#loginpanel ul, #registerpanel ul { margin: 0 0 5px 0;	padding: 0;	line-height: 1.6em;	list-style: none; }
+#loginpanel .content { width: 100%; margin: 0 auto; text-align: left; font-size: 12px; }
+#registerpanel .content { width: 100%; margin: 0 auto; text-align: left; font-size: 12px; }
+#loginpanel .content form, 
+#registerpanel .content form { margin: 0 0 10px 0; }
+#loginpanel .content label,
+#registerpanel .content label { padding-top: 8px; width: 200px; display: block; }
+#loginpanel .content input.field,
+#registerpanel .content input.field { border: 1px solid #b3b3b3; background: #414141; width: 200px; color: white; height: 16px; }
+#loginpanel .content input:focus.field,
+#registerpanel .content input:focus.field { background: #ffffff; color: #000000; }
+#loginpanel .content input.bt_login,
+#registerpanel .content input.bt_register {
+	display: block;
+	line-height: 24px;
+	height: 24px;
+	border: 1px solid #1ba68c;
+	border-radius: 6px;
+	cursor: pointer;
+	margin: 10px 0;
+	background: rgb(27,166,140); /* Old browsers */
+	background: -moz-linear-gradient(top,  rgba(27,166,140,1) 0%, rgba(58,226,195,1) 100%); /* FF3.6+ */
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(27,166,140,1)), color-stop(100%,rgba(58,226,195,1))); /* Chrome,Safari4+ */
+	background: -webkit-linear-gradient(top,  rgba(27,166,140,1) 0%,rgba(58,226,195,1) 100%); /* Chrome10+,Safari5.1+ */
+	background: -o-linear-gradient(top,  rgba(27,166,140,1) 0%,rgba(58,226,195,1) 100%); /* Opera 11.10+ */
+	background: -ms-linear-gradient(top,  rgba(27,166,140,1) 0%,rgba(58,226,195,1) 100%); /* IE10+ */
+	background: linear-gradient(to bottom,  rgba(27,166,140,1) 0%,rgba(58,226,195,1) 100%); /* W3C */
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#1ba68c', endColorstr='#3ae2c3',GradientType=0 ); /* IE6-9 */
+	text-shadow: 0 1px #1ba68c;;
+	color: #fff;
+	text-align: center;
+	font-weight: bold;
+}
+#loginpanel .content input.bt_login:hover,
+#registerpanel .content input.bt_register:hover {
+	background: rgb(58,226,195); /* Old browsers */
+	background: -moz-linear-gradient(top,  rgba(58,226,195,1) 0%, rgba(27,166,140,1) 100%); /* FF3.6+ */
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(58,226,195,1)), color-stop(100%,rgba(27,166,140,1))); /* Chrome,Safari4+ */
+	background: -webkit-linear-gradient(top,  rgba(58,226,195,1) 0%,rgba(27,166,140,1) 100%); /* Chrome10+,Safari5.1+ */
+	background: -o-linear-gradient(top,  rgba(58,226,195,1) 0%,rgba(27,166,140,1) 100%); /* Opera 11.10+ */
+	background: -ms-linear-gradient(top,  rgba(58,226,195,1) 0%,rgba(27,166,140,1) 100%); /* IE10+ */
+	background: linear-gradient(to bottom,  rgba(58,226,195,1) 0%,rgba(27,166,140,1) 100%); /* W3C */
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#3ae2c3', endColorstr='#1ba68c',GradientType=0 ); /* IE6-9 */
+}
+#loginpanel .content input.bt_login { width: 74px; }
+#registerpanel .content input.bt_register { width: 94px; }
+#loginpanel .lost-pwd { display: block; clear: right; padding: 15px 5px 0; font-size: 10px; text-decoration: underline; }
+#loginpanel { position: absolute; top: 33px; left: 0; width: 100%; background: none repeat scroll 0 0 #272727; color: #999999; z-index: 1000; }
+#registerpanel {	position: absolute; right: 0; top: 33px; width: 100%; background: none repeat scroll 0 0 #272727; color: #999999; z-index: 1000; }
+.tab { height: 32px;	position: relative; top: 0; z-index: 999; }
+.tab ul.login { margin: 0; padding: 0; height: 32px; text-align: left; }
+.tab ul.login li { margin: 0 10px 0 0; text-align: left; line-height: 26px; display: inline; }
+.tab ul.login small { font-weight: normal; font-size: 12px;	color: BBBBBB; }
+.tab ul.login li a:hover { color: white; }
+.tab .sep { color:#414141; }

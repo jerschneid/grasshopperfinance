@@ -1,0 +1,2 @@
+[17-Jan-2018 07:36:38 UTC] PHP Warning:  mkdir(): Permission denied in phar:///chroot/wp-cli/vendor/wp-cli/wp-cli/bin/wp-cli.phar/php/WP_CLI/FileCache.php on line 265
+[17-Jan-2018 07:36:42 UTC] PHP Warning:  mkdir(): Permission denied in phar:///chroot/wp-cli/vendor/wp-cli/wp-cli/bin/wp-cli.phar/php/WP_CLI/FileCache.php on line 265

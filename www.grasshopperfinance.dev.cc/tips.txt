@@ -1,0 +1,5 @@
+
+To get local database up and running
+- Export database from live site
+- Import to localsite
+- Update wp-config.php to match database name, set username and password to root and ''
