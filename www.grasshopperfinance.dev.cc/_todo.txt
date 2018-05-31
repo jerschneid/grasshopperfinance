@@ -1,7 +1,0 @@
-To do:
-
- - Commit everything to source
- - Finish no cowboy coding thing
- - Do a deploy
- - Make time the market game!
- - Make some sort of coherent home page?!

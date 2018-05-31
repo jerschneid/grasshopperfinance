@@ -1,0 +1,28 @@
+To do:
+
+ XCommit everything to source
+ XFinish no cowboy coding thing
+
+ - Include real data
+ - Pick random start/end times for 10 year period
+ - Implement buy/sell buttons, track actual growth
+ - Fix axis to show % growth and time frame
+ - Implement dividends
+ - Implement end game... player score vs riding the market
+ - Make site look less ugly
+
+
+Non-MVP
+ - Include start/stop buttons
+ - Include faster/slower buttons
+ - Server saving of scores
+
+ - Do a git deploy (might involve paying hosting more money)
+ - Document deploy process and database syncing
+ - Make some sort of coherent home page?!
+
+
+Notes:
+ - Yahoo Finance let's us download historical data, including dividends... But the prices and dividends come separately. Getting it into a single table might be rough (do we need to?)
+   - https://finance.yahoo.com/quote/VFINX/history
+   

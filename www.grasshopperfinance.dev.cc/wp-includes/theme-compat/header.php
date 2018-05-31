@@ -43,6 +43,13 @@ if ( empty($withcomments) && !is_single() ) {
 
 <?php if ( is_singular() ) wp_enqueue_script( 'comment-reply' ); ?>
 
+
+<?php
+	wp_register_script('my_amazing_script', get_template_directory_uri('js/growthcalculator.js', __FILE__), null, true);
+	wp_enqueue_script('my_amazing_script');
+	echo get_template_directory_uri('js/growthcalculator.js', __FILE__);
+?>
+
 <?php wp_head(); ?>
 </head>
 <body <?php body_class(); ?>>
