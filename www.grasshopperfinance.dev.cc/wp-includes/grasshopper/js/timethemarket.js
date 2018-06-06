@@ -44,6 +44,8 @@ const weeksPerDataPoint = 1;
 var rideItOut = false;
 var myTotalValue;
 var vfinxTotalValue;
+var vfinxPercentGain;
+var myPercentGain;
 
 function initChart() 
 {
@@ -52,6 +54,7 @@ function initChart()
     ];
 
     const numWeeks = vfinx.length;
+    myCash = 0;
 
     //Pick a random starting between 0 and the last week minus the span
     firstWeek = currentWeek = Math.floor(Math.random() * (numWeeks - spanWeeks));
@@ -82,8 +85,8 @@ function pushNextDataPoint()
     myTotalValue = myCash + vfinx[currentWeek][1] * myShares;
     vfinxTotalValue =  vfinx[currentWeek][1] * vfinxShares;
 
-    var vfinxPercentGain = (vfinxTotalValue / startingInvestment - 1);
-    var myPercentGain = (myTotalValue / startingInvestment - 1);
+    vfinxPercentGain = (vfinxTotalValue / startingInvestment - 1);
+    myPercentGain = (myTotalValue / startingInvestment - 1);
 
     var year = (currentWeek - firstWeek) / 52.0;
 
@@ -138,17 +141,22 @@ class TimeTheMarketGame extends React.Component
             buttonText: "Start!",
             holding: true,
             gameStarted: false,
-            showResults: true,
+            showResults: false,
             buySellButtonClassName: "btn btn-primary",
             myValue: startingInvestment,
+            myPercentGain: 0,
+            vfinxPercentGain: 0,
             vfinxValue: startingInvestment,
-            didBeatTheMarket: null
+            trades: 0,
+            didBeatTheMarket: null,
+
         }
 
         this.buySellClick = this.buySellClick.bind(this);
         this.resetClick = this.resetClick.bind(this);
         this.goFaster = this.goFaster.bind(this);
         this.goSlower = this.goSlower.bind(this);
+        this.playAgain = this.playAgain.bind(this);
     }
 
     formatDate(date)
@@ -187,7 +195,9 @@ class TimeTheMarketGame extends React.Component
     {
             this.setState({
                 myValue: myTotalValue,
-                vfinxValue: vfinxTotalValue
+                vfinxValue: vfinxTotalValue,
+                myPercentGain: 100 * myPercentGain,
+                vfinxPercentGain: 100 * vfinxPercentGain
             });
     }
 
@@ -207,7 +217,10 @@ class TimeTheMarketGame extends React.Component
             startDate: this.formatDate(vfinx[firstWeek][0]),
             endDate: this.formatDate(vfinx[lastWeek][0]),
             beatTheMarketMessage: message,
-            didBeatTheMarket: didBeatTheMarket
+            didBeatTheMarket: didBeatTheMarket,
+            buttonText: "Play Again",
+            buySellButtonClassName: "btn btn-primary",
+            gameStarted: false
         });
 
         //Scroll to the end game scoreboard
@@ -219,11 +232,12 @@ class TimeTheMarketGame extends React.Component
     {
         if(!this.state.gameStarted)
         {
-            this.startTheGame();
+            this.playAgain();
             return;
         }
 
         this.state.holding = !this.state.holding;
+//        this.state.trades = 3;
 
         var newText;
         var newClass;
@@ -248,9 +262,12 @@ class TimeTheMarketGame extends React.Component
 
         console.log(newText);
 
+        var newTrades = this.state.trades + 1;
+
         this.setState({
             buttonText: newText,
-            buySellButtonClassName: newClass
+            buySellButtonClassName: newClass,
+            trades: newTrades
         });
     }
 
@@ -267,6 +284,29 @@ class TimeTheMarketGame extends React.Component
 
     }
 
+    playAgain()
+    {
+        initChart();
+
+        this.setState({
+            holding: true,
+            gameStarted: true,
+            showResults: false,
+            myValue: startingInvestment,
+            vfinxValue: startingInvestment,
+            myPercentGain: 0,
+            vfinxPercentGain: 0,
+            trades: 0,
+            didBeatTheMarket: null
+        });
+
+        //Scroll to the end game scoreboard
+        var elmnt = this.refs.game;
+        elmnt.scrollIntoView();        
+
+        this.startTheGame();
+    }
+
     render() {
 
         return (
@@ -276,7 +316,7 @@ class TimeTheMarketGame extends React.Component
 
                     <div id="timeTheMarketResults" ref="timeTheMarketResults" className="card">
                         <div className={this.state.didBeatTheMarket ? 'card-header text-white bg-success' : 'card-header text-white bg-danger'}>{this.state.beatTheMarketMessage}</div>
-                        <div className="card-body">                        
+                        <div className={this.state.didBeatTheMarket ? 'card-body bg-win' : 'card-body bg-lose'}>                        
                             <ul>
                             <li>
                                 You just played the market from 
@@ -284,7 +324,7 @@ class TimeTheMarketGame extends React.Component
                                 <strong> {this.state.endDate} </strong>
                             </li>
                             <li>Your investment grew to <strong> ${this.state.myValue.formatMoney(0)} </strong>
-                                while the buy &amp; hold strategy netted <strong> ${this.state.vfinxValue.formatMoney(0)}</strong>.
+                                while the buy &amp; hold strategy netted <strong> ${this.state.vfinxValue.formatMoney(0)}</strong>
                             </li>
                             <li>
                                 You 
@@ -294,11 +334,26 @@ class TimeTheMarketGame extends React.Component
                                     <span> LOST to </span>
                                 }
                                 the market by
-                                <strong> ${Math.abs(this.state.vfinxValue - this.state.myValue).formatMoney(0)}</strong>.
+                                <strong> ${Math.abs(this.state.vfinxValue - this.state.myValue).formatMoney(0) }</strong>
+                            </li>
+                            <li>
+                                Annualized, the market grew
+                                <strong> {(100 * Math.abs(Math.pow(this.state.vfinxValue / startingInvestment, 1 / (spanWeeks / 52.0)) - 1)).toFixed(1) }% </strong>
+                                per year while your investment grew
+                                <strong> {(100 * Math.abs(Math.pow(this.state.myValue / startingInvestment, 1 / (spanWeeks / 52.0)) - 1)).toFixed(1) }% </strong>
+                                per year, so you 
+                                {
+                                    this.state.didBeatTheMarket ?
+                                    <span> beat </span> :
+                                    <span> lost to </span>
+                                }
+                                the market by
+                                <strong> {(100 * Math.abs(Math.pow(this.state.myValue / this.state.vfinxValue, 1 / (spanWeeks / 52.0)) - 1)).toPrecision(2) }% </strong>
+                                per year
                             </li>
                             </ul>
                             <div className="text-center m-2">
-                                <button className="btn btn-primary" onClick={this.buySellClick}>Play Again</button>
+                                <button className="btn btn-primary" onClick={this.playAgain}>Play Again</button>
                             </div>
                         </div>
                     </div>
@@ -308,20 +363,32 @@ class TimeTheMarketGame extends React.Component
                     Chart loading...
                 </div>
                 <button id="buySellButton" onClick={this.buySellClick} className={this.state.buySellButtonClassName}>{this.state.buttonText}</button>
-                <div id="controlButtons" className="btn-group">
-                    <button onClick={this.goSlower} className="btn btn-secondary btn-sm">Slower</button>
-                    <button onClick={this.goFaster} className="btn btn-secondary btn-sm">Faster</button>
-                    <button id="resetButton" onClick={this.resetClick} className="btn btn-secondary btn-sm">Skip to end</button>
-                </div>
+                {
+                    this.state.gameStarted ?
+                    <div id="controlButtons" className="btn-group">
+                        <button onClick={this.goSlower} className="btn btn-light btn-sm">Slower</button>
+                        <button onClick={this.goFaster} className="btn btn-light btn-sm">Faster</button>
+                        <button id="resetButton" onClick={this.resetClick} className="btn btn-light btn-sm">Skip to end</button>
+                    </div>
+                    : null
+                }
                 <div id="scoreBoard">
                     <div className="card" id="yourInvestmentScore">
                         <div className="card-header">Your Investment</div>
-                        <div className="card-body">${this.state.myValue.formatMoney(0)}</div>
+                        <div className="card-body">
+                            ${this.state.myValue.formatMoney(0)}
+                        </div>
                     </div>
                     <div className="card" id="buyAndHoldScore">
                         <div className="card-header">Buy & Hold</div>
                         <div className="card-body">${this.state.vfinxValue.formatMoney(0)}</div>
                     </div>
+                    {/* Trades isn't that interesting and just clutters things
+                    <div className="card" id="trades">
+                        <div className="card-header">Trades</div>
+                        <div className="card-body">{this.state.trades}</div>
+                    </div>
+                    */}
                 </div>
 
             </div>

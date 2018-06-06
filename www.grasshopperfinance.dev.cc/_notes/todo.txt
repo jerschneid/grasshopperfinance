@@ -7,29 +7,30 @@ XInclude real data
 XPick random start/end times for 10 year period - Create "Start state" with instructions and start button to start the click
 XImplement buy/sell buttons, track actual growth
 X"Play again/Finish/Ride it out/Done" button runs out the clock (as fast as possible... calculate the whole chart before drawing?)
+XInstall better theme: https://wordpress.org/themes/devdmbootstrap4/
+XDocument how to switch themes	
+ XCreate scoreboard below chart
+  XYour net worth
+  XBuy and hold
+XFix axis to show % growth and time frame
+XYour growth of $10,000 vs buy and hold
+XTime period involved
+XNumber of trades
+XNumber of trades
+XWire up reset buttons (hide uneccessary buttons)
 
- - Install better theme: https://wordpress.org/themes/devdmbootstrap4/
-   - Look into bootstrap.build
-   - Document how to switch themes	
 
  - Create end state showing
-   - Your growth of $10,000 vs buy and hold
-   - Number of trades
    - Percent growth
-   - Time period involved
- - Create scoreboard below chart
-  - Your net worth
-  - Buy and hold
-  - Number of trades
+ - Add to scoreboard 
   - % growth
- - Fix axis to show % growth and time frame
- - Fix all the "reset" stuff
- - Make site look less ugly
+ - Clean up faster/slower buttons
  - Possible to be mobile friendly (chart seems to have a ton of deadspace around the edges... maybe CSS for screen width to remove it?)
  - Server saving of scores
  - Test on shitty hardware (chromebook?! old windows machine, different browser)
  - Look at size of vfinx.js and reduce whitespace and decimals
  - BUG: Clicking start too soon breaks stuff
+ - Make site look less ugly
 
 Non-MVP
  - Include start/stop buttons
@@ -46,6 +47,7 @@ Non-MVP
  - Document deploy process and database syncing
  - Make some sort of coherent home page?!
  - Automate collection of VFINX data?
+ - Look into bootstrap.build
 
 
 Notes:
