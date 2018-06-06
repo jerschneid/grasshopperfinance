@@ -3,26 +3,53 @@ To do:
  XCommit everything to source
  XFinish no cowboy coding thing
 
- - Include real data
- - Pick random start/end times for 10 year period
- - Implement buy/sell buttons, track actual growth
- - Fix axis to show % growth and time frame
- - Implement dividends
- - Implement end game... player score vs riding the market
- - Make site look less ugly
+XInclude real data
+XPick random start/end times for 10 year period - Create "Start state" with instructions and start button to start the click
+XImplement buy/sell buttons, track actual growth
+X"Play again/Finish/Ride it out/Done" button runs out the clock (as fast as possible... calculate the whole chart before drawing?)
 
+ - Install better theme: https://wordpress.org/themes/devdmbootstrap4/
+   - Look into bootstrap.build
+   - Document how to switch themes	
+
+ - Create end state showing
+   - Your growth of $10,000 vs buy and hold
+   - Number of trades
+   - Percent growth
+   - Time period involved
+ - Create scoreboard below chart
+  - Your net worth
+  - Buy and hold
+  - Number of trades
+  - % growth
+ - Fix axis to show % growth and time frame
+ - Fix all the "reset" stuff
+ - Make site look less ugly
+ - Possible to be mobile friendly (chart seems to have a ton of deadspace around the edges... maybe CSS for screen width to remove it?)
+ - Server saving of scores
+ - Test on shitty hardware (chromebook?! old windows machine, different browser)
+ - Look at size of vfinx.js and reduce whitespace and decimals
+ - BUG: Clicking start too soon breaks stuff
 
 Non-MVP
  - Include start/stop buttons
  - Include faster/slower buttons
- - Server saving of scores
+ - High scores list
+   - Best score ever
+   - Best score of the day
+   - Average 
+   - Average by number of trades
+   - Trends by number of trades
+
 
  - Do a git deploy (might involve paying hosting more money)
  - Document deploy process and database syncing
  - Make some sort of coherent home page?!
+ - Automate collection of VFINX data?
 
 
 Notes:
  - Yahoo Finance let's us download historical data, including dividends... But the prices and dividends come separately. Getting it into a single table might be rough (do we need to?)
+ - The adjusted price does include dividends reinvested.
    - https://finance.yahoo.com/quote/VFINX/history
    

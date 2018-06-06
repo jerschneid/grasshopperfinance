@@ -1,0 +1,7 @@
+- Download zip from: https://wordpress.org/themes/wp-bootstrap-4/
+- Go to wordpress admin: http://www.grasshopperfinance.dev.cc/wp-admin/themes.php
+- Click add new, upload, upload zip
+- In the wp-content/themes folder, copy the latest child folder and rename it newtheme-child
+- In that new folder update the styles.css comments at top to match new theme details
+  - Make sure to include a line like "Template: wp-bootstrap-4" where the value matches the folder name of the parent
+- Go to themese page, click activate on new child theme

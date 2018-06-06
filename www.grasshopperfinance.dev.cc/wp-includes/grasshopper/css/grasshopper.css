@@ -1,0 +1,116 @@
+#game
+{
+	border: solid 1px #ccc;
+	border-radius: 5px;
+	margin: 10px 0;
+	padding: 5px;
+}
+
+#timeTheMarketChart
+{
+	width: 100%;
+	height: 450px;
+	/* border: solid 1px red; */
+}
+
+#buySellButton
+{
+	display: block;
+	margin: auto;
+	font-size: 150%;
+	margin: 4px auto 8px auto;
+}
+
+
+#controlButtons
+{
+	display: flex;
+	justify-content: center;
+	margin-bottom: 8px;
+}
+
+#scoreBoard
+{
+	display: flex;
+	justify-content: center;
+}
+
+#scoreBoard .card
+{
+	width: 30%;
+	margin: 0 5px;
+	flex-shrink: 1;
+}
+
+#scoreBoard .card-body, #scoreBoard .card-header
+{
+	padding: 4px;
+	text-align: center;
+}
+
+#scoreBoard .card-body
+{
+	font-family: Courier New;
+	font-size: 120%;
+	font-weight: bold;
+}
+
+
+#scoreBoard:first-child
+{
+	display: flex;
+	flex: 0 0 65%;
+}
+
+
+#buyAndHoldScore
+{
+	border-color: #3366cc;
+}
+
+#buyAndHoldScore .card-header
+{
+	border-color: #3366cc;
+	background-color: #c2d1f0
+}
+
+#yourInvestmentScore
+{
+	border-color: #dc3912;
+}
+
+#yourInvestmentScore .card-header
+{
+	border-color: #dc3912;
+	background-color: #f5c4b8
+}
+
+#timeTheMarketResults
+{
+	margin: 8px;
+}
+
+#timeTheMarketResults .card-body
+{
+	padding: 10px;
+}
+
+.clear
+{
+	clear: both;
+}
+
+.parent{
+  width: 200px;
+  height: 300px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 5px dashed #6BD9ED;
+}
+
+.child{
+  width: 300px;
+  height: 400px;
+  border: 5px dashed #A7E040;
+}
