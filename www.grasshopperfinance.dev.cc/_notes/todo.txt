@@ -18,19 +18,18 @@ XTime period involved
 XNumber of trades
 XNumber of trades
 XWire up reset buttons (hide uneccessary buttons)
+XCreate end state showing
+XPercent growth
 
 
- - Create end state showing
-   - Percent growth
- - Add to scoreboard 
-  - % growth
  - Clean up faster/slower buttons
- - Possible to be mobile friendly (chart seems to have a ton of deadspace around the edges... maybe CSS for screen width to remove it?)
+ - Possible to be mobile friendly (CSS media queries)
  - Server saving of scores
  - Test on shitty hardware (chromebook?! old windows machine, different browser)
  - Look at size of vfinx.js and reduce whitespace and decimals
  - BUG: Clicking start too soon breaks stuff
  - Make site look less ugly
+ - favicon
 
 Non-MVP
  - Include start/stop buttons
