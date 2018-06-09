@@ -1,5 +1,0 @@
-
-
-Amazon AWS intance wordpress
-u: user
-p: 3w26kLW6e2or
