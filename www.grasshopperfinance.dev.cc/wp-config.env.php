@@ -24,7 +24,7 @@
  */
 $env = [
     'production'  => [
-        'domain' => '*.grasshopperfinance.com',
+        'domain' => ['www.grasshopperfinance.com','grasshopperfinance.com'],
         'path'   => '',
         'ssl'    => false,
     ],
