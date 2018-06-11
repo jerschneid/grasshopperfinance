@@ -30,6 +30,7 @@ XPercent growth
  - BUG: Clicking start too soon breaks stuff
  - Make site look less ugly
  - favicon
+ - Make sure all the records with the domain are correct (non www version?)
 
 Non-MVP
  - Include start/stop buttons
