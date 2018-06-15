@@ -46,9 +46,12 @@ var myTotalValue;
 var vfinxTotalValue;
 var vfinxPercentGain;
 var myPercentGain;
+var serverGameID = null;
 
 function initChart() 
 {
+    serverGameID = null;
+
     chartData = [
       ['Week', 'Buy and Hold', 'Your Investment'],
     ];
@@ -137,6 +140,8 @@ class TimeTheMarketGame extends React.Component
     constructor(){
         super();
 
+        this.apiUrlBase = "/wp-json/ghapi/v1";
+
         this.state = {
             buttonText: "Start!",
             holding: true,
@@ -149,11 +154,12 @@ class TimeTheMarketGame extends React.Component
             vfinxValue: startingInvestment,
             trades: 0,
             didBeatTheMarket: null,
-
+            beatTheMarketByDollars: null,
+            beatTheMarketByPercent: null
         }
 
         this.buySellClick = this.buySellClick.bind(this);
-        this.resetClick = this.resetClick.bind(this);
+        this.skipToEndClick = this.skipToEndClick.bind(this);
         this.goFaster = this.goFaster.bind(this);
         this.goSlower = this.goSlower.bind(this);
         this.playAgain = this.playAgain.bind(this);
@@ -164,6 +170,19 @@ class TimeTheMarketGame extends React.Component
         var options = { year: 'numeric', month: 'long', day: 'numeric' };
         return new Date(date).toLocaleDateString("en-US", options);
     }    
+
+    formatDateForMySql(date)
+    {
+        return dateString =
+            date.getUTCFullYear() + "-" +
+            ("0" + (date.getUTCMonth()+1)).slice(-2) + "-" +
+            ("0" + date.getUTCDate()).slice(-2) + " " +
+            ("0" + date.getUTCHours()).slice(-2) + ":" +
+            ("0" + date.getUTCMinutes()).slice(-2) + ":" +
+            ("0" + date.getUTCSeconds()).slice(-2);
+
+    }    
+
 
     goFaster()
     {
@@ -183,13 +202,69 @@ class TimeTheMarketGame extends React.Component
 
         this.state.gameStarted = true;
 
+        //postStartGameToServer is listed as the callback as setState is async
         this.setState({
             buttonText: "Sell!",
-            buySellButtonClassName: "btn btn-danger"
-        });
+            buySellButtonClassName: "btn btn-danger",
+            startDate: vfinx[firstWeek][0]
+        }, this.postStartGameToServer);
+
 
         setTimeout(updateChart, timeIntervalInMilliSeconds);
     }
+
+    postStartGameToServer()
+    {
+        var postUrl = this.apiUrlBase + "/time_the_market_start_game";
+
+        console.log("Start Date: " + this.state.startDate);
+
+        axios.post(postUrl, {
+            market_start_date: vfinx[firstWeek][0],
+            start_money: startingInvestment,
+
+          })
+          .then(function (response) {
+            if(response.status == 200)
+            {
+                serverGameID = response.data;
+            }
+          })
+          .catch(function (error) {
+            console.error(error);
+        });
+    }
+
+    postEndGameToServer()
+    {
+        if(serverGameID == null)
+            return;
+
+        var postUrl = this.apiUrlBase + "/time_the_market_end_game";
+
+        console.log("Posting to " + postUrl);
+
+        axios.post(postUrl, {
+            id: serverGameID,
+            num_trades: this.state.trades,
+            did_beat_market: this.state.didBeatTheMarket,
+            beat_market_by_dollars: this.state.beatTheMarketByDollars,
+            beat_market_by_percent: this.state.beatTheMarketByPercent,
+            market_end_date: this.state.endDate,
+            my_end_money: this.state.myValue,
+            market_end_money: this.state.vfinxValue,
+
+          })
+          .then(function (response) {
+            //To do: update scoreboard?
+            console.error(response);
+          })
+          .catch(function (error) {
+            console.error(error);
+          });
+
+    }
+
 
     updateScore()
     {
@@ -214,14 +289,16 @@ class TimeTheMarketGame extends React.Component
 
         this.setState({
             showResults: true,
-            startDate: this.formatDate(vfinx[firstWeek][0]),
-            endDate: this.formatDate(vfinx[lastWeek][0]),
+            startDate: vfinx[firstWeek][0],
+            endDate: vfinx[lastWeek][0],
             beatTheMarketMessage: message,
             didBeatTheMarket: didBeatTheMarket,
+            beatTheMarketByDollars: this.state.myValue - this.state.vfinxValue,
+            beatTheMarketByPercent: Math.pow(this.state.myValue / this.state.vfinxValue, 1 / (spanWeeks / 52.0)) - 1,
             buttonText: "Play Again",
             buySellButtonClassName: "btn btn-primary",
             gameStarted: false
-        });
+        }, this.postEndGameToServer);
 
         //Scroll to the end game scoreboard
         var elmnt = this.refs.game;
@@ -271,7 +348,7 @@ class TimeTheMarketGame extends React.Component
         });
     }
 
-    resetClick()
+    skipToEndClick()
     {
         rideItOut = true;
 
@@ -280,8 +357,7 @@ class TimeTheMarketGame extends React.Component
             pushNextDataPoint();
         }
 
-        updateMessage();
-
+        //The chart seems to draw itself again, but not sure how?!
     }
 
     playAgain()
@@ -320,8 +396,8 @@ class TimeTheMarketGame extends React.Component
                             <ul>
                             <li>
                                 You just played the market from 
-                                <strong> {this.state.startDate} </strong> through 
-                                <strong> {this.state.endDate} </strong>
+                                <strong> { this.formatDate(this.state.startDate) } </strong> through 
+                                <strong> { this.formatDate(this.state.endDate) } </strong>
                             </li>
                             <li>Your investment grew to <strong> ${this.state.myValue.formatMoney(0)} </strong>
                                 while the buy &amp; hold strategy netted <strong> ${this.state.vfinxValue.formatMoney(0)}</strong>
@@ -334,13 +410,13 @@ class TimeTheMarketGame extends React.Component
                                     <span> LOST to </span>
                                 }
                                 the market by
-                                <strong> ${Math.abs(this.state.vfinxValue - this.state.myValue).formatMoney(0) }</strong>
+                                <strong> ${ Math.abs(this.state.beatTheMarketByDollars).formatMoney(0) }</strong>
                             </li>
                             <li>
                                 Annualized, the market grew
-                                <strong> {(100 * Math.abs(Math.pow(this.state.vfinxValue / startingInvestment, 1 / (spanWeeks / 52.0)) - 1)).toFixed(1) }% </strong>
+                                <strong> {(100 * (Math.pow(this.state.vfinxValue / startingInvestment, 1 / (spanWeeks / 52.0)) - 1)).toFixed(1) }% </strong>
                                 per year while your investment grew
-                                <strong> {(100 * Math.abs(Math.pow(this.state.myValue / startingInvestment, 1 / (spanWeeks / 52.0)) - 1)).toFixed(1) }% </strong>
+                                <strong> {(100 * (Math.pow(this.state.myValue / startingInvestment, 1 / (spanWeeks / 52.0)) - 1)).toFixed(1) }% </strong>
                                 per year, so you 
                                 {
                                     this.state.didBeatTheMarket ?
@@ -348,7 +424,7 @@ class TimeTheMarketGame extends React.Component
                                     <span> lost to </span>
                                 }
                                 the market by
-                                <strong> {(100 * Math.abs(Math.pow(this.state.myValue / this.state.vfinxValue, 1 / (spanWeeks / 52.0)) - 1)).toPrecision(2) }% </strong>
+                                <strong> { (100 * Math.abs(this.state.beatTheMarketByPercent)).toPrecision(2) }% </strong>
                                 per year
                             </li>
                             </ul>
@@ -368,7 +444,7 @@ class TimeTheMarketGame extends React.Component
                     <div id="controlButtons" className="btn-group">
                         <button onClick={this.goSlower} className="btn btn-light btn-sm">Slower</button>
                         <button onClick={this.goFaster} className="btn btn-light btn-sm">Faster</button>
-                        <button id="resetButton" onClick={this.resetClick} className="btn btn-light btn-sm">Skip to end</button>
+                        <button id="skipToEndButton" onClick={this.skipToEndClick} className="btn btn-light btn-sm">Skip to end</button>
                     </div>
                     : null
                 }
@@ -383,12 +459,6 @@ class TimeTheMarketGame extends React.Component
                         <div className="card-header">Buy & Hold</div>
                         <div className="card-body">${this.state.vfinxValue.formatMoney(0)}</div>
                     </div>
-                    {/* Trades isn't that interesting and just clutters things
-                    <div className="card" id="trades">
-                        <div className="card-header">Trades</div>
-                        <div className="card-body">{this.state.trades}</div>
-                    </div>
-                    */}
                 </div>
 
             </div>

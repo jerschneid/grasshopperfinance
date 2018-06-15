@@ -240,6 +240,10 @@ require( ABSPATH . WPINC . '/rest-api/fields/class-wp-rest-post-meta-fields.php'
 require( ABSPATH . WPINC . '/rest-api/fields/class-wp-rest-term-meta-fields.php' );
 require( ABSPATH . WPINC . '/rest-api/fields/class-wp-rest-user-meta-fields.php' );
 
+//Jeremy addiotion
+require( ABSPATH . WPINC . '/rest-api/endpoints/class-grasshopper-api-controller.php' );
+
+
 $GLOBALS['wp_embed'] = new WP_Embed();
 
 // Load multisite-specific files.

@@ -20,21 +20,30 @@ XNumber of trades
 XWire up reset buttons (hide uneccessary buttons)
 XCreate end state showing
 XPercent growth
+Xfavicon
+XDo a git deploy (might involve paying hosting more money)
+XDocument deploy process and database syncing
+XTest on shitty hardware (chromebook?! old windows machine, different browser)
+XUse Phinx to set up database migrations
+XAdd indexes to columns?
+XAdd REST API: https://v2.wp-api.org/extending/adding/
+XRead article above to better understand why they do things?
 
 
- - Clean up faster/slower buttons
- - Possible to be mobile friendly (CSS media queries)
  - Server saving of scores
- - Test on shitty hardware (chromebook?! old windows machine, different browser)
+   - Call Rest API, have it enter complete data
+   - Set up scoreboard with simple results
+
+ - Fix funky scrolling when you hit start
+ - Clean up faster/slower buttons
+ - Make mobile friendly (CSS media queries)
  - Look at size of vfinx.js and reduce whitespace and decimals
  - BUG: Clicking start too soon breaks stuff
- - Make site look less ugly
- - favicon
  - Make sure all the records with the domain are correct (non www version?)
+ - Remove all javascript console logging (way to minify and do this automatically or something?)
 
 Non-MVP
- - Include start/stop buttons
- - Include faster/slower buttons
+ - Headlines of the day (wall street journal, your uncle, CNN money, Jim Kramer, Bloomberg?!)
  - High scores list
    - Best score ever
    - Best score of the day
@@ -42,13 +51,20 @@ Non-MVP
    - Average by number of trades
    - Trends by number of trades
 
-
- - Do a git deploy (might involve paying hosting more money)
- - Document deploy process and database syncing
- - Make some sort of coherent home page?!
- - Automate collection of VFINX data?
+Site stuff
+ - Make some sort of coherent home page
+ - Time the market game in top menu?
+ - Make a "category" page for just texts?
  - Look into bootstrap.build
 
+
+Next Projects:
+ - Build a "beat the index" game (Pick 10 oldest stocks in the Dow Jones... checkboxes next to each, random 10 year period)
+ - Build the "investment growth calculator"
+   - Choose rate of return (before/after inflation)
+   - Choose "last X years of S&P 500"
+   - Choose "Random period of S&P 500"
+ - Lottery simulator (one per named game?)
 
 Notes:
  - Yahoo Finance let's us download historical data, including dividends... But the prices and dividends come separately. Getting it into a single table might be rough (do we need to?)
