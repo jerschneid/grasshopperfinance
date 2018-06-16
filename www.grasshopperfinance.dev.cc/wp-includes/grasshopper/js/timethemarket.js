@@ -155,7 +155,8 @@ class TimeTheMarketGame extends React.Component
             trades: 0,
             didBeatTheMarket: null,
             beatTheMarketByDollars: null,
-            beatTheMarketByPercent: null
+            beatTheMarketByPercent: null,
+            recordResults: null
         }
 
         this.buySellClick = this.buySellClick.bind(this);
@@ -164,6 +165,11 @@ class TimeTheMarketGame extends React.Component
         this.goSlower = this.goSlower.bind(this);
         this.playAgain = this.playAgain.bind(this);
     }
+
+    componentDidMount() 
+    {
+        this.getRecordBoardResults();
+    }    
 
     formatDate(date)
     {
@@ -262,9 +268,7 @@ class TimeTheMarketGame extends React.Component
           .catch(function (error) {
             console.error(error);
           });
-
     }
-
 
     updateScore()
     {
@@ -274,6 +278,29 @@ class TimeTheMarketGame extends React.Component
                 myPercentGain: 100 * myPercentGain,
                 vfinxPercentGain: 100 * vfinxPercentGain
             });
+    }
+
+    getRecordBoardResults()
+    {
+        var getUrl = this.apiUrlBase + "/get_time_the_market_record_board";
+
+        console.log("getting: " + getUrl);
+
+        axios.get(getUrl)
+          .then(response =>  {
+            if(response.status == 200)
+            {
+                console.log(response);
+
+                this.setState({
+                    recordResults: response.data
+                });
+            }
+          })
+          .catch(function (error) {
+            console.error(error);
+        });
+
     }
 
     endGame()
@@ -386,82 +413,122 @@ class TimeTheMarketGame extends React.Component
     render() {
 
         return (
-            <div id="game" ref="game">
-                { 
-                    this.state.showResults ? 
+            <div id="game_container">
+                <div id="game" ref="game" className="card mb-3 pb-2">
+                    <div className="card-header">
+                        Time The Market Game
+                    </div>
+                    <div className="card-body pt-1">
+                    { 
+                        this.state.showResults ? 
 
-                    <div id="timeTheMarketResults" ref="timeTheMarketResults" className="card">
-                        <div className={this.state.didBeatTheMarket ? 'card-header text-white bg-success' : 'card-header text-white bg-danger'}>{this.state.beatTheMarketMessage}</div>
-                        <div className={this.state.didBeatTheMarket ? 'card-body bg-win' : 'card-body bg-lose'}>                        
-                            <ul>
-                            <li>
-                                You just played the market from 
-                                <strong> { this.formatDate(this.state.startDate) } </strong> through 
-                                <strong> { this.formatDate(this.state.endDate) } </strong>
-                            </li>
-                            <li>Your investment grew to <strong> ${this.state.myValue.formatMoney(0)} </strong>
-                                while the buy &amp; hold strategy netted <strong> ${this.state.vfinxValue.formatMoney(0)}</strong>
-                            </li>
-                            <li>
-                                You 
-                                {
-                                    this.state.didBeatTheMarket ?
-                                    <span> BEAT </span> :
-                                    <span> LOST to </span>
-                                }
-                                the market by
-                                <strong> ${ Math.abs(this.state.beatTheMarketByDollars).formatMoney(0) }</strong>
-                            </li>
-                            <li>
-                                Annualized, the market grew
-                                <strong> {(100 * (Math.pow(this.state.vfinxValue / startingInvestment, 1 / (spanWeeks / 52.0)) - 1)).toFixed(1) }% </strong>
-                                per year while your investment grew
-                                <strong> {(100 * (Math.pow(this.state.myValue / startingInvestment, 1 / (spanWeeks / 52.0)) - 1)).toFixed(1) }% </strong>
-                                per year, so you 
-                                {
-                                    this.state.didBeatTheMarket ?
-                                    <span> beat </span> :
-                                    <span> lost to </span>
-                                }
-                                the market by
-                                <strong> { (100 * Math.abs(this.state.beatTheMarketByPercent)).toPrecision(2) }% </strong>
-                                per year
-                            </li>
-                            </ul>
-                            <div className="text-center m-2">
-                                <button className="btn btn-primary" onClick={this.playAgain}>Play Again</button>
+                        <div id="timeTheMarketResults" ref="timeTheMarketResults" className="card">
+                            <div className={this.state.didBeatTheMarket ? 'card-header text-white bg-success' : 'card-header text-white bg-danger'}>{this.state.beatTheMarketMessage}</div>
+                            <div className={this.state.didBeatTheMarket ? 'card-body bg-win' : 'card-body bg-lose'}>                        
+                                <ul>
+                                <li>
+                                    You just played the market from 
+                                    <strong> { this.formatDate(this.state.startDate) } </strong> through 
+                                    <strong> { this.formatDate(this.state.endDate) } </strong>
+                                </li>
+                                <li>Your investment grew to <strong> ${this.state.myValue.formatMoney(0)} </strong>
+                                    while the buy &amp; hold strategy netted <strong> ${this.state.vfinxValue.formatMoney(0)}</strong>
+                                </li>
+                                <li>
+                                    You 
+                                    {
+                                        this.state.didBeatTheMarket ?
+                                        <span> BEAT </span> :
+                                        <span> LOST to </span>
+                                    }
+                                    the market by
+                                    <strong> ${ Math.abs(this.state.beatTheMarketByDollars).formatMoney(0) }</strong>
+                                </li>
+                                <li>
+                                    Annualized, the market grew
+                                    <strong> {(100 * (Math.pow(this.state.vfinxValue / startingInvestment, 1 / (spanWeeks / 52.0)) - 1)).toFixed(1) }% </strong>
+                                    per year while your investment grew
+                                    <strong> {(100 * (Math.pow(this.state.myValue / startingInvestment, 1 / (spanWeeks / 52.0)) - 1)).toFixed(1) }% </strong>
+                                    per year, so you 
+                                    {
+                                        this.state.didBeatTheMarket ?
+                                        <span> beat </span> :
+                                        <span> lost to </span>
+                                    }
+                                    the market by
+                                    <strong> { (100 * Math.abs(this.state.beatTheMarketByPercent)).toPrecision(2) }% </strong>
+                                    per year
+                                </li>
+                                </ul>
+                                <div className="text-center m-2">
+                                    <button className="btn btn-primary" onClick={this.playAgain}>Play Again</button>
+                                </div>
                             </div>
                         </div>
+                        : null 
+                    }
                     </div>
-                    : null 
-                }
-                <div id="timeTheMarketChart">
-                    Chart loading...
-                </div>
-                <button id="buySellButton" onClick={this.buySellClick} className={this.state.buySellButtonClassName}>{this.state.buttonText}</button>
-                {
-                    this.state.gameStarted ?
-                    <div id="controlButtons" className="btn-group">
-                        <button onClick={this.goSlower} className="btn btn-light btn-sm">Slower</button>
-                        <button onClick={this.goFaster} className="btn btn-light btn-sm">Faster</button>
-                        <button id="skipToEndButton" onClick={this.skipToEndClick} className="btn btn-light btn-sm">Skip to end</button>
+                    <div id="timeTheMarketChart">
+                        Chart loading...
                     </div>
-                    : null
-                }
-                <div id="scoreBoard">
-                    <div className="card" id="yourInvestmentScore">
-                        <div className="card-header">Your Investment</div>
-                        <div className="card-body">
-                            ${this.state.myValue.formatMoney(0)}
+                    <button id="buySellButton" onClick={this.buySellClick} className={this.state.buySellButtonClassName}>{this.state.buttonText}</button>
+                    {
+                        this.state.gameStarted ?
+                        <div id="controlButtons" className="btn-group">
+                            <button onClick={this.goSlower} className="btn btn-light btn-sm">Slower</button>
+                            <button onClick={this.goFaster} className="btn btn-light btn-sm">Faster</button>
+                            <button id="skipToEndButton" onClick={this.skipToEndClick} className="btn btn-light btn-sm">Skip to end</button>
                         </div>
-                    </div>
-                    <div className="card" id="buyAndHoldScore">
-                        <div className="card-header">Buy & Hold</div>
-                        <div className="card-body">${this.state.vfinxValue.formatMoney(0)}</div>
+                        : null
+                    }
+                    <div id="scoreBoard">
+                        <div className="card" id="yourInvestmentScore">
+                            <div className="card-header">Your Investment</div>
+                            <div className="card-body">${this.state.myValue.formatMoney(0)}</div>
+                        </div>
+                        <div className="card" id="buyAndHoldScore">
+                            <div className="card-header">Buy & Hold</div>
+                            <div className="card-body">${this.state.vfinxValue.formatMoney(0)}</div>
+                        </div>
                     </div>
                 </div>
 
+                {
+                this.state.recordResults ? 
+                <div id="recordBoard" className="card mb-5">
+                    <div className="card-header">
+                        How did everyone do?
+                    </div>
+                    <div className="card-body p-4">
+                                To date <strong>{ this.state.recordResults["num_plays"]}</strong> market timers have played this game and they have beaten the
+                                market <strong>{ 100 * parseFloat(this.state.recordResults["percent_beats"]).toPrecision(3)}%</strong> of the time
+                                { parseFloat(this.state.recordResults["avg_beat_market_by_dollars"]) > 0 ? " beating the " : " losing to the " } 
+                                market by <strong>${ Math.abs(this.state.recordResults["avg_beat_market_by_dollars"]).formatMoney(0) }</strong> on average 
+                                (<strong>{ 100 * parseFloat(this.state.recordResults["avg_beat_market_by_percent"]).toPrecision(3) }%</strong> annually).
+                        <ul>
+                            <li>
+                                Those who have beat the market have 
+                                beat the market by <strong>${ Math.abs(this.state.recordResults["avg_beat_market_by_dollars_for_winners"]).formatMoney(0) } </strong>
+                                (<strong>{ 100 * parseFloat(this.state.recordResults["avg_beat_market_by_percent_for_winners"]).toPrecision(2)}%</strong>) on average
+                                making an average of <strong>{ parseFloat(this.state.recordResults["avg_num_trades_for_winners"]).toPrecision(2) }</strong> trades.
+
+                            </li>
+                            <li>
+                                Those who  lost to the market have 
+                                lost by <strong>${ Math.abs(this.state.recordResults["avg_beat_market_by_dollars_for_losers"]).formatMoney(0) } </strong>
+                                (<strong>{ 100 * parseFloat(this.state.recordResults["avg_beat_market_by_percent_for_losers"]).toPrecision(2)}%</strong>) on average
+                                making an average of <strong>{ parseFloat(this.state.recordResults["avg_num_trades_for_losers"]).toPrecision(2) }</strong> trades.
+
+                            </li>
+                        </ul>
+
+                    </div>
+
+                </div>
+                :null
+                }
             </div>
+
         )
     }
 }

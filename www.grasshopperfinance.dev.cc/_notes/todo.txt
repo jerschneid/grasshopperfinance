@@ -28,11 +28,12 @@ XUse Phinx to set up database migrations
 XAdd indexes to columns?
 XAdd REST API: https://v2.wp-api.org/extending/adding/
 XRead article above to better understand why they do things?
+XServer saving of scores
+XCall Rest API, have it enter complete data
 
 
- - Server saving of scores
-   - Call Rest API, have it enter complete data
-   - Set up scoreboard with simple results
+ - Set up scoreboard with simple results
+   - Format record board (move it outside of game)
 
  - Fix funky scrolling when you hit start
  - Clean up faster/slower buttons
@@ -41,6 +42,7 @@ XRead article above to better understand why they do things?
  - BUG: Clicking start too soon breaks stuff
  - Make sure all the records with the domain are correct (non www version?)
  - Remove all javascript console logging (way to minify and do this automatically or something?)
+ - Install Google analytics
 
 Non-MVP
  - Headlines of the day (wall street journal, your uncle, CNN money, Jim Kramer, Bloomberg?!)

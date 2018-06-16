@@ -21,17 +21,17 @@ return
             'pass' => DB_PASSWORD,
             'port' => '3306',
             'charset' => 'utf8',
-        ]
-        /*,
-        'development' => [
+        ],
+        'production' => [
             'adapter' => 'mysql',
-            'host' => 'localhost',
-            'name' => 'development_db',
-            'user' => 'root',
-            'pass' => '',
+            'host' => PROD_DB_HOST,
+            'name' => PROD_DB_NAME,
+            'user' => PROD_DB_USER,
+            'pass' => PROD_DB_PASSWORD,
             'port' => '3306',
             'charset' => 'utf8',
-        ],
+        ]
+        /*,
         'testing' => [
             'adapter' => 'mysql',
             'host' => 'localhost',

@@ -18,6 +18,12 @@ class Grasshopper_API_Controller extends WP_REST_Controller {
       'methods'  => WP_REST_Server::CREATABLE,
       'callback' => array( $this, 'time_the_market_end_game' ),
     ));
+
+    register_rest_route( $namespace, '/get_time_the_market_record_board' , array(
+      'methods'  => WP_REST_Server::READABLE,
+      'callback' => array( $this, 'get_time_the_market_record_board' ),
+    ));
+
   }
 
   public function time_the_market_start_game( $request ) {
@@ -63,5 +69,32 @@ class Grasshopper_API_Controller extends WP_REST_Controller {
 
  
     return new WP_REST_Response( $success, 200 );
+  }
+
+  public function get_time_the_market_record_board( $request )
+  {
+    global $wpdb;
+    
+    // Avg beat by number of trades
+    $sql = "SELECT COUNT(*) AS num_plays,
+      SUM(CASE WHEN did_beat_market=true THEN 1 ELSE 0 END) / COUNT(*) AS percent_beats,
+      AVG(beat_market_by_dollars) AS avg_beat_market_by_dollars,
+      AVG(beat_market_by_percent) AS avg_beat_market_by_percent,
+      AVG(num_trades),
+      AVG(CASE WHEN did_beat_market=true THEN beat_market_by_dollars ELSE NULL END) as avg_beat_market_by_dollars_for_winners,
+      AVG(CASE WHEN did_beat_market=false THEN beat_market_by_dollars ELSE NULL END) as avg_beat_market_by_dollars_for_losers,
+      AVG(CASE WHEN did_beat_market=true THEN beat_market_by_percent ELSE NULL END) as avg_beat_market_by_percent_for_winners,
+      AVG(CASE WHEN did_beat_market=false THEN beat_market_by_percent ELSE NULL END) as avg_beat_market_by_percent_for_losers,
+      AVG(CASE WHEN did_beat_market=true THEN num_trades ELSE NULL END) as avg_num_trades_for_winners,
+      AVG(CASE WHEN did_beat_market=false THEN num_trades ELSE NULL END) as avg_num_trades_for_losers
+      FROM time_the_market_plays
+      WHERE num_trades > 0
+    ";
+
+
+    $results = $wpdb->get_row( $sql );
+
+    return new WP_REST_Response( $results, 200 );
+
   }  
 }
