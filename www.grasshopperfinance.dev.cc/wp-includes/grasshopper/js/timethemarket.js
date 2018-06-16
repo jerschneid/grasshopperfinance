@@ -414,7 +414,7 @@ class TimeTheMarketGame extends React.Component
 
         return (
             <div id="game_container">
-                <div id="game" ref="game" className="card mb-3 pb-2">
+                <div id="game" ref="game" className="card mt-3 mb-3 pb-2">
                     <div className="card-header">
                         Time The Market Game
                     </div>
