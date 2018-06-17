@@ -1,3 +1,12 @@
+/* Small screen modifications for theme as a whole */
+@media (max-width: 800px) 
+{
+	article.card
+	{
+		border: none;
+	}
+}
+
 #game
 {
 }
@@ -106,6 +115,28 @@
 {
 	background-color: #ffe7e9
 }
+
+/* Small screen modifications for time the market game */
+@media (max-width: 800px) 
+{
+	#timeTheMarketChart
+	{
+		height: 300px;	
+	}
+
+	#scoreBoard .card
+	{
+		width: 45%;
+	}
+
+	#scoreBoard .card-header
+	{
+		font-size: 80%;
+	}
+
+
+}
+
 
 .clear
 {

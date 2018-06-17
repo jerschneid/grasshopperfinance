@@ -500,23 +500,26 @@ class TimeTheMarketGame extends React.Component
                         How did everyone do?
                     </div>
                     <div className="card-body p-4">
-                                To date <strong>{ this.state.recordResults["num_plays"]}</strong> market timers have played this game and they have beaten the
+                        <p className="mb-3">
+                                This game has been played <strong>{ this.state.recordResults["num_plays"]}</strong> times
+                                with the player beating the
                                 market <strong>{ 100 * parseFloat(this.state.recordResults["percent_beats"]).toPrecision(3)}%</strong> of the time
-                                { parseFloat(this.state.recordResults["avg_beat_market_by_dollars"]) > 0 ? " beating the " : " losing to the " } 
+                                and { parseFloat(this.state.recordResults["avg_beat_market_by_dollars"]) > 0 ? " beating the " : " losing to the " } 
                                 market by <strong>${ Math.abs(this.state.recordResults["avg_beat_market_by_dollars"]).formatMoney(0) }</strong> on average 
                                 (<strong>{ 100 * parseFloat(this.state.recordResults["avg_beat_market_by_percent"]).toPrecision(3) }%</strong> annually).
+                        </p>
                         <ul>
                             <li>
                                 Those who have beat the market have 
-                                beat the market by <strong>${ Math.abs(this.state.recordResults["avg_beat_market_by_dollars_for_winners"]).formatMoney(0) } </strong>
-                                (<strong>{ 100 * parseFloat(this.state.recordResults["avg_beat_market_by_percent_for_winners"]).toPrecision(2)}%</strong>) on average
+                                beat the market by an average of <strong>${ Math.abs(this.state.recordResults["avg_beat_market_by_dollars_for_winners"]).formatMoney(0) } </strong>
+                                (<strong>{ 100 * parseFloat(this.state.recordResults["avg_beat_market_by_percent_for_winners"]).toPrecision(2)}%</strong>)
                                 making an average of <strong>{ parseFloat(this.state.recordResults["avg_num_trades_for_winners"]).toPrecision(2) }</strong> trades.
 
                             </li>
                             <li>
-                                Those who  lost to the market have 
-                                lost by <strong>${ Math.abs(this.state.recordResults["avg_beat_market_by_dollars_for_losers"]).formatMoney(0) } </strong>
-                                (<strong>{ 100 * parseFloat(this.state.recordResults["avg_beat_market_by_percent_for_losers"]).toPrecision(2)}%</strong>) on average
+                                Those who lost to the market have 
+                                lost by an average of <strong>${ Math.abs(this.state.recordResults["avg_beat_market_by_dollars_for_losers"]).formatMoney(0) } </strong>
+                                (<strong>{ 100 * parseFloat(this.state.recordResults["avg_beat_market_by_percent_for_losers"]).toPrecision(2)}%</strong>)
                                 making an average of <strong>{ parseFloat(this.state.recordResults["avg_num_trades_for_losers"]).toPrecision(2) }</strong> trades.
 
                             </li>
