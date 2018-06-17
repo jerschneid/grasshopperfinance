@@ -19,9 +19,6 @@ Underscores is distributed under the terms of the GNU GPL v2 or later.
 
 */
 
-@import url("/wp-includes/grasshopper/css/grasshopper.css");
-
-
 .author, .separator, .posted-on
 {
 	display: none;
