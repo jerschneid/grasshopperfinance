@@ -40,6 +40,7 @@ var interestRate = 0.01;
 const startingInvestment = 10000.0;
 var timeIntervalInMilliSeconds = 75;
 const timeIntervalSpeedChange = 50;
+const maxTimeInterval = 300;
 const weeksPerDataPoint = 1;
 var rideItOut = false;
 var myTotalValue;
@@ -156,7 +157,9 @@ class TimeTheMarketGame extends React.Component
             didBeatTheMarket: null,
             beatTheMarketByDollars: null,
             beatTheMarketByPercent: null,
-            recordResults: null
+            recordResults: null,
+            isTopSpeed: false,
+            isBottomSpeed: false
         }
 
         this.buySellClick = this.buySellClick.bind(this);
@@ -196,11 +199,44 @@ class TimeTheMarketGame extends React.Component
         {
             timeIntervalInMilliSeconds -= timeIntervalSpeedChange;
         }
+        else if(timeIntervalInMilliSeconds > 0)
+        {
+            timeIntervalInMilliSeconds = 0;
+        }
+
+
+        if(timeIntervalInMilliSeconds <= 0 && !this.state.isTopSpeed)
+        {
+            this.setState({ isTopSpeed: true });
+        }
+
+        if(this.state.isBottomSpeed)
+        {
+            this.setState({ isBottomSpeed: false });  
+        }
+
+        console.log("Delay: " + timeIntervalInMilliSeconds);
+
     } 
 
     goSlower()
     {
-        timeIntervalInMilliSeconds += timeIntervalSpeedChange;
+        if(timeIntervalInMilliSeconds + timeIntervalSpeedChange <= maxTimeInterval)
+        {
+            timeIntervalInMilliSeconds += timeIntervalSpeedChange;
+        }
+
+        if(timeIntervalInMilliSeconds + timeIntervalSpeedChange > maxTimeInterval)
+        {
+            this.setState({ isBottomSpeed: true });   
+        }
+
+        if(this.state.isTopSpeed)
+        {
+            this.setState({ isTopSpeed: false });
+        }
+
+        console.log("Delay: " + timeIntervalInMilliSeconds);
     }
 
     startTheGame()
@@ -326,6 +362,9 @@ class TimeTheMarketGame extends React.Component
             buySellButtonClassName: "btn btn-primary",
             gameStarted: false
         }, this.postEndGameToServer);
+
+        //Update the record board
+        this.getRecordBoardResults();
 
         //Scroll to the end game scoreboard
         var elmnt = this.refs.game;
@@ -475,8 +514,8 @@ class TimeTheMarketGame extends React.Component
                     {
                         this.state.gameStarted ?
                         <div id="controlButtons" className="btn-group">
-                            <button onClick={this.goSlower} className="btn btn-light btn-sm">Slower</button>
-                            <button onClick={this.goFaster} className="btn btn-light btn-sm">Faster</button>
+                            <button onClick={this.goSlower} className="btn btn-light btn-sm" disabled={this.state.isBottomSpeed}>Slower</button>
+                            <button onClick={this.goFaster} className="btn btn-light btn-sm" disabled={this.state.isTopSpeed}>Faster</button>
                             <button id="skipToEndButton" onClick={this.skipToEndClick} className="btn btn-light btn-sm">Skip to end</button>
                         </div>
                         : null
@@ -503,23 +542,23 @@ class TimeTheMarketGame extends React.Component
                         <p className="mb-3">
                                 This game has been played <strong>{ this.state.recordResults["num_plays"]}</strong> times
                                 with the player beating the
-                                market <strong>{ 100 * parseFloat(this.state.recordResults["percent_beats"]).toPrecision(3)}%</strong> of the time
+                                market <strong>{ (100 * parseFloat(this.state.recordResults["percent_beats"])).toPrecision(2)}%</strong> of the time
                                 and { parseFloat(this.state.recordResults["avg_beat_market_by_dollars"]) > 0 ? " beating the " : " losing to the " } 
                                 market by <strong>${ Math.abs(this.state.recordResults["avg_beat_market_by_dollars"]).formatMoney(0) }</strong> on average 
-                                (<strong>{ 100 * parseFloat(this.state.recordResults["avg_beat_market_by_percent"]).toPrecision(3) }%</strong> annually).
+                                (<strong>{ (100 * parseFloat(this.state.recordResults["avg_beat_market_by_percent"])).toPrecision(2) }%</strong> annually).
                         </p>
                         <ul>
                             <li>
                                 Those who have beat the market have 
                                 beat the market by an average of <strong>${ Math.abs(this.state.recordResults["avg_beat_market_by_dollars_for_winners"]).formatMoney(0) } </strong>
-                                (<strong>{ 100 * parseFloat(this.state.recordResults["avg_beat_market_by_percent_for_winners"]).toPrecision(2)}%</strong>)
+                                (<strong>{ (100 * parseFloat(this.state.recordResults["avg_beat_market_by_percent_for_winners"])).toPrecision(2)}%</strong>)
                                 making an average of <strong>{ parseFloat(this.state.recordResults["avg_num_trades_for_winners"]).toPrecision(2) }</strong> trades.
 
                             </li>
                             <li>
                                 Those who lost to the market have 
                                 lost by an average of <strong>${ Math.abs(this.state.recordResults["avg_beat_market_by_dollars_for_losers"]).formatMoney(0) } </strong>
-                                (<strong>{ 100 * parseFloat(this.state.recordResults["avg_beat_market_by_percent_for_losers"]).toPrecision(2)}%</strong>)
+                                (<strong>{ (100 * parseFloat(this.state.recordResults["avg_beat_market_by_percent_for_losers"])).toPrecision(2)}%</strong>)
                                 making an average of <strong>{ parseFloat(this.state.recordResults["avg_num_trades_for_losers"]).toPrecision(2) }</strong> trades.
 
                             </li>

@@ -20,24 +20,29 @@ function load_scripts() {
     if( is_page() || is_single() )
     {
         //TODO: Maybe include react based on tag name or something?
-        //TODO: Make these case statements correct
         switch($post->post_name) // post_name is the post slug which is more consistent for matching to here
         {
-            case 'investment-growth-and-net-worth-calculator':
             default:
 
                 //These three scripts make react happen
-                wp_enqueue_script('babel-standalone', 'https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/6.26.0/babel.min.js', null, '6.26.0', false);                
+                wp_enqueue_script('babel-standalone', 'https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/6.26.0/babel.min.js', null, '6.26.0', false);
+
                 //Todo: Find a better way to include production versions on live site
-//                wp_enqueue_script('react', 'https://unpkg.com/react@16/umd/react.production.min.js', array('babel-standalone'), '16', false);                
-//                wp_enqueue_script('react-dom', 'https://unpkg.com/react-dom@16/umd/react-dom.production.min.js', array('react'), '16', false);                
-                wp_enqueue_script('react', 'https://unpkg.com/react@16/umd/react.development.js', array('babel-standalone'), '16', false);                
-                wp_enqueue_script('react-dom', 'https://unpkg.com/react-dom@16/umd/react-dom.development.js', array('react'), '16', false);                
+                if(WP_ENV == "development")
+                {
+                    wp_enqueue_script('react', 'https://unpkg.com/react@16/umd/react.development.js', array('babel-standalone'), '16', false);
+                    wp_enqueue_script('react-dom', 'https://unpkg.com/react-dom@16/umd/react-dom.development.js', array('react'), '16', false);
+
+                }
+                else
+                {
+                    wp_enqueue_script('react', 'https://unpkg.com/react@16/umd/react.production.min.js', array('babel-standalone'), '16', false);            
+                    wp_enqueue_script('react-dom', 'https://unpkg.com/react-dom@16/umd/react-dom.production.min.js', array('react'), '16', false);
+                }                
 
                 //This is for ajax
                 wp_enqueue_script('axios', 'https://unpkg.com/axios/dist/axios.min.js', null, '6.26.0', false);                
 
-                wp_enqueue_script('growthcalculator', get_stylesheet_directory_uri() . '/js/growthcalculator.js', null, array('react-dom'), false);
                 break;
         }
     }
