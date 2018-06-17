@@ -551,7 +551,7 @@ class TimeTheMarketGame extends React.Component
                             <li>
                                 Those who have beat the market have 
                                 beat the market by an average of <strong>${ Math.abs(this.state.recordResults["avg_beat_market_by_dollars_for_winners"]).formatMoney(0) } </strong>
-                                (<strong>{ (100 * parseFloat(this.state.recordResults["avg_beat_market_by_percent_for_winners"])).toPrecision(2)}%</strong>)
+                                (<strong>{ (100 * parseFloat(this.state.recordResults["avg_beat_market_by_percent_for_winners"])).toPrecision(2) }%</strong>)
                                 making an average of <strong>{ parseFloat(this.state.recordResults["avg_num_trades_for_winners"]).toPrecision(2) }</strong> trades.
 
                             </li>

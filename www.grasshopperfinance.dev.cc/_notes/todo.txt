@@ -33,14 +33,14 @@ XCall Rest API, have it enter complete data
 XSet up scoreboard with simple results
 XFormat record board (move it outside of game)
 XInstall Google analytics
+XMake mobile friendly (CSS media queries)
+XFix funky scrolling when you hit start
+XClean up faster/slower buttons
+XLook at size of vfinx.js and reduce whitespace and decimals
+XMake sure all the records with the domain are correct (non www version?)
+XBUG: Clicking start too soon breaks stuff
 
- - Make mobile friendly (CSS media queries)
 
- - Fix funky scrolling when you hit start
- - Clean up faster/slower buttons
- - Look at size of vfinx.js and reduce whitespace and decimals
- - BUG: Clicking start too soon breaks stuff
- - Make sure all the records with the domain are correct (non www version?)
  - Remove all javascript console logging (way to minify and do this automatically or something?)
 
 Non-MVP
@@ -48,8 +48,6 @@ Non-MVP
  - High scores list
    - Best score ever
    - Best score of the day
-   - Average 
-   - Average by number of trades
    - Trends by number of trades
 
 Site stuff
