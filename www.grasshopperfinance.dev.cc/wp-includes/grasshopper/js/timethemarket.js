@@ -54,7 +54,7 @@ function initChart()
     serverGameID = null;
 
     chartData = [
-      ['Week', 'Buy and Hold', 'Your Investment'],
+      ['Week', 'Buy and Hold', 'Your Investment', '200 Simple Moving Average'],
     ];
 
     const numWeeks = vfinx.length;
@@ -88,16 +88,19 @@ function pushNextDataPoint()
 
     myTotalValue = myCash + vfinx[currentWeek][1] * myShares;
     vfinxTotalValue =  vfinx[currentWeek][1] * vfinxShares;
+    smaTotalValue = vfinx[currentWeek][2] * vfinxShares;
 
     vfinxPercentGain = (vfinxTotalValue / startingInvestment - 1);
     myPercentGain = (myTotalValue / startingInvestment - 1);
+    smaGain = (smaTotalValue / startingInvestment - 1);
 
     var year = (currentWeek - firstWeek) / 52.0;
 
     var nextDataPoint = [
         year,
         vfinxPercentGain,
-        myPercentGain
+        myPercentGain,
+        smaGain
     ];
 
     chartData.push(nextDataPoint);
