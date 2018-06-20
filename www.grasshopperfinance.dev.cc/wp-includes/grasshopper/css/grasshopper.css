@@ -116,6 +116,18 @@
 	background-color: #ffe7e9
 }
 
+#sma_section
+{
+	width: 100%;
+	text-align: center;
+}
+
+#sma_section span
+{
+	color: #ff9900;
+	fong-weight: bold;
+}
+
 /* Small screen modifications for time the market game */
 @media (max-width: 800px) 
 {

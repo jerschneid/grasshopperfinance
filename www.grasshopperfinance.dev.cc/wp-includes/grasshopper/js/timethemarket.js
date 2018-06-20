@@ -48,14 +48,18 @@ var vfinxTotalValue;
 var vfinxPercentGain;
 var myPercentGain;
 var serverGameID = null;
+var showSMA = false; //Simple moving average - off by default for casual player
 
 function initChart() 
 {
     serverGameID = null;
 
-    chartData = [
-      ['Week', 'Buy and Hold', 'Your Investment', '200 Simple Moving Average'],
-    ];
+    chartData = new google.visualization.DataTable();
+
+    chartData.addColumn('number', 'Year');
+    chartData.addColumn('number', 'Buy and Hold');
+    chartData.addColumn('number', 'Your Investment');
+    chartData.addColumn('number', '200 Simple Moving Average');
 
     const numWeeks = vfinx.length;
     myCash = 0;
@@ -79,7 +83,7 @@ function initChart()
 
     console.log("Attemping to draw chart");
     chart = new google.visualization.ComboChart(document.getElementById('timeTheMarketChart'));
-    chart.draw(google.visualization.arrayToDataTable(chartData), options);
+    chart.draw(chartData, options);
     console.log("Drew chart");
 }
 
@@ -105,7 +109,13 @@ function pushNextDataPoint()
         smaPercentGain
     ];
 
-    chartData.push(nextDataPoint);
+    chartData.addRow([
+        year,
+        vfinxPercentGain,
+        myPercentGain,
+        smaPercentGain
+    ]);    
+
     theGame.updateScore();
 
     currentWeek += weeksPerDataPoint;
@@ -116,8 +126,12 @@ function updateChart()
     pushNextDataPoint();
 
     //Put into a view so we can hide the SMA if box is unchecked
-    var view = new google.visualization.DataView(google.visualization.arrayToDataTable(chartData));
-    view.hideColumns([3]);
+    var view = new google.visualization.DataView(chartData);
+
+    if(!showSMA)
+    {
+        view.hideColumns([3]);
+    }
 
     chart.draw(view, options);
 
@@ -168,7 +182,8 @@ class TimeTheMarketGame extends React.Component
             beatTheMarketByPercent: null,
             recordResults: null,
             isTopSpeed: false,
-            isBottomSpeed: false
+            isBottomSpeed: false,
+            showSMA: showSMA
         }
 
         this.buySellClick = this.buySellClick.bind(this);
@@ -176,6 +191,7 @@ class TimeTheMarketGame extends React.Component
         this.goFaster = this.goFaster.bind(this);
         this.goSlower = this.goSlower.bind(this);
         this.playAgain = this.playAgain.bind(this);
+        this.toggleSMA = this.toggleSMA.bind(this);
     }
 
     componentDidMount() 
@@ -435,6 +451,19 @@ class TimeTheMarketGame extends React.Component
         //The chart seems to draw itself again, but not sure how?!
     }
 
+    toggleSMA(event)
+    {
+        const target = event.target;
+        const value = target.type === 'checkbox' ? target.checked : target.value;
+        const name = target.name;
+
+        this.setState({
+          [name]: value
+        });
+
+        showSMA = value;
+    }
+
     playAgain()
     {
         initChart();
@@ -529,6 +558,15 @@ class TimeTheMarketGame extends React.Component
                         </div>
                         : null
                     }
+                    <div id="sma_section">
+                        <input
+                            id="showSmaBox"
+                            name="showSMA"
+                            type="checkbox"
+                            checked={this.state.showSMA}
+                            onChange={this.toggleSMA} />
+                        <label htmlFor="showSmaBox" className="ml-2 small"><span>/</span> Show 200 Day Simple Moving Average</label>
+                    </div>
                     <div id="scoreBoard">
                         <div className="card" id="yourInvestmentScore">
                             <div className="card-header">Your Investment</div>
