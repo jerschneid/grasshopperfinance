@@ -73,10 +73,12 @@ function initChart()
         'legend': {'position': 'none'},
         hAxis: {title: 'Year',  titleTextStyle: {color: '#333'}, minValue: 0, maxValue: spanWeeks / 52.0},
         vAxis: {title: 'Percent Gain', minValue: -0.1, maxValue: 0.1, format: 'percent'},
+        seriesType: 'area',
+        series: {2: {type: 'line'}}
     };
 
     console.log("Attemping to draw chart");
-    chart = new google.visualization.AreaChart(document.getElementById('timeTheMarketChart'));
+    chart = new google.visualization.ComboChart(document.getElementById('timeTheMarketChart'));
     chart.draw(google.visualization.arrayToDataTable(chartData), options);
     console.log("Drew chart");
 }
@@ -88,11 +90,11 @@ function pushNextDataPoint()
 
     myTotalValue = myCash + vfinx[currentWeek][1] * myShares;
     vfinxTotalValue =  vfinx[currentWeek][1] * vfinxShares;
-    smaTotalValue = vfinx[currentWeek][2] * vfinxShares;
+    var smaTotalValue = vfinx[currentWeek][2] * vfinxShares;
 
     vfinxPercentGain = (vfinxTotalValue / startingInvestment - 1);
     myPercentGain = (myTotalValue / startingInvestment - 1);
-    smaGain = (smaTotalValue / startingInvestment - 1);
+    var smaPercentGain = (smaTotalValue / startingInvestment - 1);
 
     var year = (currentWeek - firstWeek) / 52.0;
 
@@ -100,7 +102,7 @@ function pushNextDataPoint()
         year,
         vfinxPercentGain,
         myPercentGain,
-        smaGain
+        smaPercentGain
     ];
 
     chartData.push(nextDataPoint);
@@ -113,7 +115,11 @@ function updateChart()
 {
     pushNextDataPoint();
 
-    chart.draw(google.visualization.arrayToDataTable(chartData), options);
+    //Put into a view so we can hide the SMA if box is unchecked
+    var view = new google.visualization.DataView(google.visualization.arrayToDataTable(chartData));
+    view.hideColumns([3]);
+
+    chart.draw(view, options);
 
     if(currentWeek < lastWeek)
     {
