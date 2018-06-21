@@ -548,6 +548,18 @@ class TimeTheMarketGame extends React.Component
                     <div id="timeTheMarketChart">
                         Chart loading...
                     </div>
+                    { false ? 
+                    <div id="news" className="card ml-3 mr-3">
+                        <div className="card-header p-1">
+                            Headlines of the Day
+                        </div>
+                        <div className="card-body p-1">
+                            <span class="headline">A 3.86 GAIN IN DOW CAPS A SOLID WEEK</span>
+                            <span class="source"> -The New York Times</span>
+                        </div>
+                    </div>
+                     : null
+                    }
                     <button id="buySellButton" onClick={this.buySellClick} className={this.state.buySellButtonClassName}>{this.state.buttonText}</button>
                     {
                         this.state.gameStarted ?

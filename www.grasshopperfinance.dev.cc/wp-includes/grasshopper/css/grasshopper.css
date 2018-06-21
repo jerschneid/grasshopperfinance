@@ -128,6 +128,32 @@
 	fong-weight: bold;
 }
 
+
+
+#news .card-header
+{
+	font-size: 80%;
+}
+
+#news .card-body
+{
+	font-size: 80%;
+}
+
+#news .headline
+{
+	font-family: Georgia;
+	font-weight: bold;
+}
+
+#news .source
+{
+	width: 100%;
+	text-align: right;
+}
+
+
+
 /* Small screen modifications for time the market game */
 @media (max-width: 800px) 
 {
