@@ -140,6 +140,11 @@
 	font-size: 80%;
 }
 
+#news .headline-label
+{
+	color: #36c;
+}
+
 #news .headline
 {
 	font-family: Georgia;
@@ -152,6 +157,12 @@
 	text-align: right;
 }
 
+#headline-list
+{
+	font-size: 80%;
+}
+
+
 
 
 /* Small screen modifications for time the market game */
@@ -159,7 +170,7 @@
 {
 	#timeTheMarketChart
 	{
-		height: 300px;	
+		height: 260px;	
 	}
 
 	#scoreBoard .card
@@ -172,7 +183,10 @@
 		font-size: 80%;
 	}
 
-
+	.hentry.card .card-body
+	{
+		padding: 0.5rem;
+	}
 }
 
 

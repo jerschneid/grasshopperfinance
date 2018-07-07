@@ -16,8 +16,6 @@ function Init()
 
     ReactDOM.render(<TimeTheMarketGame ref={(theGame) => {window.theGame = theGame}} />, document.getElementById("root"));
 
-    console.log("Rendered <TimeTheMarketGame />")
-
     google.charts.load('current', {'packages':['corechart']});
     google.charts.setOnLoadCallback(initChart);
 
@@ -38,10 +36,10 @@ var myShares = 0;
 var myCash = 0;
 var interestRate = 0.01;
 const startingInvestment = 10000.0;
-var timeIntervalInMilliSeconds = 75;
+var timeIntervalInMilliSeconds = 125;
 const timeIntervalSpeedChange = 50;
 const maxTimeInterval = 300;
-const weeksPerDataPoint = 1;
+const weeksPerDataPoint = 2;
 var rideItOut = false;
 var myTotalValue;
 var vfinxTotalValue;
@@ -49,15 +47,20 @@ var vfinxPercentGain;
 var myPercentGain;
 var serverGameID = null;
 var showSMA = false; //Simple moving average - off by default for casual player
+var currentArticle = null;
 
 function initChart() 
 {
     serverGameID = null;
+    currentArticle = null;
+    rideItOut = false;
 
     chartData = new google.visualization.DataTable();
 
     chartData.addColumn('number', 'Year');
     chartData.addColumn('number', 'Buy and Hold');
+    chartData.addColumn({type:'string', role:'annotation'});
+    chartData.addColumn({type:'string', role:'annotationText'});      
     chartData.addColumn('number', 'Your Investment');
     chartData.addColumn('number', '200 Simple Moving Average');
 
@@ -81,16 +84,14 @@ function initChart()
         series: {2: {type: 'line'}}
     };
 
-    console.log("Attemping to draw chart");
     chart = new google.visualization.ComboChart(document.getElementById('timeTheMarketChart'));
     chart.draw(chartData, options);
-    console.log("Drew chart");
 }
 
 function pushNextDataPoint()
 {
     //Add one week of interest at 1% 
-    myCash = myCash + myCash * interestRate * weeksPerDataPoint         / 52.0;
+    myCash = myCash + myCash * interestRate * weeksPerDataPoint / 52.0;
 
     myTotalValue = myCash + vfinx[currentWeek][1] * myShares;
     vfinxTotalValue =  vfinx[currentWeek][1] * vfinxShares;
@@ -102,21 +103,30 @@ function pushNextDataPoint()
 
     var year = (currentWeek - firstWeek) / 52.0;
 
-    var nextDataPoint = [
-        year,
-        vfinxPercentGain,
-        myPercentGain,
-        smaPercentGain
-    ];
+    var nextArticle = theGame.getCurrentArticle();
+
+    var annotation = null;
+    var annotationText = null;
+
+    if(nextArticle != null && nextArticle != currentArticle && !rideItOut)
+    {
+        currentArticle = nextArticle;
+
+        annotation = currentArticle[3];
+        annotationText = currentArticle[0];
+    }
 
     chartData.addRow([
         year,
         vfinxPercentGain,
+        annotation,
+        annotationText,
         myPercentGain,
         smaPercentGain
     ]);    
 
     theGame.updateScore();
+    theGame.updateHeadline();
 
     currentWeek += weeksPerDataPoint;
 }
@@ -130,7 +140,7 @@ function updateChart()
 
     if(!showSMA)
     {
-        view.hideColumns([3]);
+        view.hideColumns([5]);
     }
 
     chart.draw(view, options);
@@ -141,8 +151,6 @@ function updateChart()
     }
     else
     {
-        console.log('Calling theGame.endGame()');
-        console.log(theGame);
         theGame.endGame();
     }
 }
@@ -183,7 +191,10 @@ class TimeTheMarketGame extends React.Component
             recordResults: null,
             isTopSpeed: false,
             isBottomSpeed: false,
-            showSMA: showSMA
+            showSMA: showSMA,
+            newsArticles: null,
+            newsArticleList: null,
+            currentArticleIndex: -1
         }
 
         this.buySellClick = this.buySellClick.bind(this);
@@ -217,6 +228,15 @@ class TimeTheMarketGame extends React.Component
 
     }    
 
+    getCurrentArticle()
+    {
+        if(this.state.currentArticleIndex < 0)
+        {
+            return null;
+        }
+
+        return this.state.newsArticles[this.state.currentArticleIndex];
+    }
 
     goFaster()
     {
@@ -239,9 +259,6 @@ class TimeTheMarketGame extends React.Component
         {
             this.setState({ isBottomSpeed: false });  
         }
-
-        console.log("Delay: " + timeIntervalInMilliSeconds);
-
     } 
 
     goSlower()
@@ -260,8 +277,6 @@ class TimeTheMarketGame extends React.Component
         {
             this.setState({ isTopSpeed: false });
         }
-
-        console.log("Delay: " + timeIntervalInMilliSeconds);
     }
 
     startTheGame()
@@ -276,6 +291,7 @@ class TimeTheMarketGame extends React.Component
             startDate: vfinx[firstWeek][0]
         }, this.postStartGameToServer);
 
+        this.getNewsArticles();
 
         setTimeout(updateChart, timeIntervalInMilliSeconds);
     }
@@ -283,8 +299,6 @@ class TimeTheMarketGame extends React.Component
     postStartGameToServer()
     {
         var postUrl = this.apiUrlBase + "/time_the_market_start_game";
-
-        console.log("Start Date: " + this.state.startDate);
 
         axios.post(postUrl, {
             market_start_date: vfinx[firstWeek][0],
@@ -308,8 +322,6 @@ class TimeTheMarketGame extends React.Component
             return;
 
         var postUrl = this.apiUrlBase + "/time_the_market_end_game";
-
-        console.log("Posting to " + postUrl);
 
         axios.post(postUrl, {
             id: serverGameID,
@@ -341,18 +353,32 @@ class TimeTheMarketGame extends React.Component
             });
     }
 
+    updateHeadline()
+    {
+        if(!this.state.newsArticles || !this.state.gameStarted)
+            return;
+
+        var nextArticleIndex = this.state.currentArticleIndex + 1;
+
+        if(nextArticleIndex >= this.state.newsArticles.length)
+            return;
+
+        if(vfinx[currentWeek][0] > this.state.newsArticles[nextArticleIndex][1])
+        {
+            this.setState({
+                currentArticleIndex: nextArticleIndex            
+            })            
+        }
+    }
+
     getRecordBoardResults()
     {
         var getUrl = this.apiUrlBase + "/get_time_the_market_record_board";
-
-        console.log("getting: " + getUrl);
 
         axios.get(getUrl)
           .then(response =>  {
             if(response.status == 200)
             {
-                console.log(response);
-
                 this.setState({
                     recordResults: response.data
                 });
@@ -361,8 +387,36 @@ class TimeTheMarketGame extends React.Component
           .catch(function (error) {
             console.error(error);
         });
-
     }
+
+    getNewsArticles()
+    {
+        var getUrl = this.apiUrlBase + "/get_time_the_market_news_articles";
+
+        axios.get(getUrl, {
+            params: {
+            market_start_date: vfinx[firstWeek][0],
+            market_end_date: vfinx[lastWeek][0]
+            }
+          })
+          .then(response =>  {
+            if(response.status == 200)
+            {
+                const listItems = response.data.map((article) =>
+                    <li><strong>{this.formatDate(article[1])}</strong>: <a target="_blank" href={article[2]}>{article[0]}</a></li>
+                );                
+
+                this.setState({
+                    newsArticles: response.data,
+                    newsArticlesList: listItems
+                });
+            }
+          })
+          .catch(function (error) {
+            console.error(error);
+        });
+    }
+
 
     endGame()
     {
@@ -428,8 +482,6 @@ class TimeTheMarketGame extends React.Component
             newClass = "btn btn-success";
         }
 
-        console.log(newText);
-
         var newTrades = this.state.trades + 1;
 
         this.setState({
@@ -466,7 +518,8 @@ class TimeTheMarketGame extends React.Component
 
     playAgain()
     {
-        initChart();
+        //For some reason setState wasn't actually changing this for a while... couldn't figure out why.
+        this.state.currentArticleIndex = -1;
 
         this.setState({
             holding: true,
@@ -477,8 +530,16 @@ class TimeTheMarketGame extends React.Component
             myPercentGain: 0,
             vfinxPercentGain: 0,
             trades: 0,
-            didBeatTheMarket: null
-        });
+            didBeatTheMarket: null,
+            currentArticleIndex: -1,
+            newsArticleList: null,
+            newsArticles: null
+        }, this.restartNewGame());
+    }
+
+    restartNewGame()
+    {
+        initChart();
 
         //Scroll to the end game scoreboard
         var elmnt = this.refs.game;
@@ -540,6 +601,15 @@ class TimeTheMarketGame extends React.Component
                                 <div className="text-center m-2">
                                     <button className="btn btn-primary" onClick={this.playAgain}>Play Again</button>
                                 </div>
+                                <div id="headline-list">
+                                    <p className="mb-2">The news headlines you saw were:</p>
+                                    <ol type="A">
+                                        { this.state.newsArticlesList }
+                                    </ol>
+                                </div>
+                                <div className="text-center m-2">
+                                    <button className="btn btn-primary" onClick={this.playAgain}>Play Again</button>
+                                </div>
                             </div>
                         </div>
                         : null 
@@ -548,18 +618,6 @@ class TimeTheMarketGame extends React.Component
                     <div id="timeTheMarketChart">
                         Chart loading...
                     </div>
-                    { false ? 
-                    <div id="news" className="card ml-3 mr-3">
-                        <div className="card-header p-1">
-                            Headlines of the Day
-                        </div>
-                        <div className="card-body p-1">
-                            <span class="headline">A 3.86 GAIN IN DOW CAPS A SOLID WEEK</span>
-                            <span class="source"> -The New York Times</span>
-                        </div>
-                    </div>
-                     : null
-                    }
                     <button id="buySellButton" onClick={this.buySellClick} className={this.state.buySellButtonClassName}>{this.state.buttonText}</button>
                     {
                         this.state.gameStarted ?
@@ -570,15 +628,28 @@ class TimeTheMarketGame extends React.Component
                         </div>
                         : null
                     }
-                    <div id="sma_section">
-                        <input
-                            id="showSmaBox"
-                            name="showSMA"
-                            type="checkbox"
-                            checked={this.state.showSMA}
-                            onChange={this.toggleSMA} />
-                        <label htmlFor="showSmaBox" className="ml-2 small"><span>/</span> Show 200 Day Simple Moving Average</label>
+                    { true ? 
+                    <div id="news" className="card ml-3 mr-3 mb-2">
+                        <div className="card-header p-1">
+                            News Headlines
+                        </div>
+                        <div className="card-body p-1">
+                            { this.state.currentArticleIndex >= 0 ?
+                                <div>
+                                    <span className="headline-label">{ this.state.newsArticles[this.state.currentArticleIndex][3] }: </span>
+                                    <span className="headline">{ this.state.newsArticles[this.state.currentArticleIndex][0] }</span>
+                                    <span className="source"> -The New York Times</span>
+                                </div>
+                                :
+                                <div>
+                                    <i>News headlines will appear here when you start the game</i>
+                                </div>
+                            }
+                        </div>
                     </div>
+                     : null
+                    }
+
                     <div id="scoreBoard">
                         <div className="card" id="yourInvestmentScore">
                             <div className="card-header">Your Investment</div>
@@ -588,6 +659,15 @@ class TimeTheMarketGame extends React.Component
                             <div className="card-header">Buy & Hold</div>
                             <div className="card-body">${this.state.vfinxValue.formatMoney(0)}</div>
                         </div>
+                    </div>
+                    <div id="sma_section">
+                        <input
+                            id="showSmaBox"
+                            name="showSMA"
+                            type="checkbox"
+                            checked={this.state.showSMA}
+                            onChange={this.toggleSMA} />
+                        <label htmlFor="showSmaBox" className="ml-2 small"><span>/</span> Show 200 Day Simple Moving Average</label>
                     </div>
                 </div>
 
@@ -634,32 +714,6 @@ class TimeTheMarketGame extends React.Component
     }
 }
 
-
-
-
-// class Hello extends React.Component {
-    
-//     constructor(){
-//         super();
-//         this.state = {
-//             message: "my friend (from state)!"
-//         };
-//         this.updateMessage = this.updateMessage.bind(this);
-//     }
-//     updateMessage() {
-//         this.setState({
-//             message: "my friend (from changed state)!"
-//         });
-//     }
-//     render() {
-//          return (
-//            <div>
-//              <h1>Hello {this.state.message}!</h1>
-//              <button onClick={this.updateMessage}>Click me!</button>
-//            </div>   
-//         )
-//     }
-// }
 
 //Keep this at the bottom of the file
 Init();

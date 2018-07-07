@@ -1,4 +1,7 @@
 <?php
+
+require 'data-news-articles.php';
+
  
 class Grasshopper_API_Controller extends WP_REST_Controller {
  
@@ -24,6 +27,10 @@ class Grasshopper_API_Controller extends WP_REST_Controller {
       'callback' => array( $this, 'get_time_the_market_record_board' ),
     ));
 
+    register_rest_route( $namespace, '/get_time_the_market_news_articles' , array(
+      'methods'  => WP_REST_Server::READABLE,
+      'callback' => array( $this, 'get_time_the_market_news_articles' ),
+    ));
   }
 
   public function time_the_market_start_game( $request ) {
@@ -91,10 +98,54 @@ class Grasshopper_API_Controller extends WP_REST_Controller {
       WHERE num_trades > 0
     ";
 
-
     $results = $wpdb->get_row( $sql );
 
     return new WP_REST_Response( $results, 200 );
-
   }  
+
+
+  public function console_log( $data )
+  {
+    echo $data;
+    // echo '<script>';
+    // echo 'console.log('. json_encode( $data ) .')';
+    // echo '</script>';
+  }
+
+  public function get_time_the_market_news_articles( $request )
+  {
+    global $wpdb;
+    global $news_articles;
+
+    $startDate = strtotime($request["market_start_date"]);
+    $endDate = strtotime($request["market_end_date"]);
+
+    $interval = ($endDate - $startDate) / 10.0;
+
+    $currentDate = $startDate;
+    $count = 0;
+
+    $results = array();
+    $currentLetter = 'A';
+
+    for($i = 0; $i < count($news_articles) && $count < 10; $i++)
+    {
+      if(strtotime($news_articles[$i][1]) > $currentDate)
+      {
+          $article = $news_articles[$i];
+
+          //Add a letter to identify each article on the chart
+          array_push($article, $currentLetter);
+
+          array_push($results, $article);
+          $currentDate += $interval;
+          $count++;
+          $currentLetter++;
+      }
+    }
+
+    return new WP_REST_Response( $results, 200 );
+
+  }
+
 }
