@@ -495,7 +495,7 @@ class TimeTheMarketGame extends React.Component
     {
         rideItOut = true;
 
-        while(currentWeek < lastWeek)
+        while(currentWeek <= lastWeek)
         {
             pushNextDataPoint();
         }
