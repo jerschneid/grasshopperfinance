@@ -45,6 +45,7 @@ var investmentAtMaxAge = 0;
 var firstMarketMonth = 0;
 var currentMarketMonth = 0;
 var lastMarketMonth = 0;
+var monthsPerDataPoint = 4;
 
 function initChart() 
 {
@@ -100,19 +101,19 @@ function initChart()
 
 function pushNextDataPoint()
 {
-    var currentContribution = parseFloat(formData["monthlyInvestment"]) * 12;
-
     if (currentAge < retirementAge)
     {
+        var currentContribution = parseFloat(formData["monthlyInvestment"]) * monthsPerDataPoint;
         myTotalContributions += currentContribution;
         myCash += currentContribution;
         myShares += currentContribution / sp500[currentMarketMonth][1];
     }
     else
     {
-        myTotalContributions -= annualCostOfLiving;
-        myShares -= annualCostOfLiving / sp500[currentMarketMonth][1];
-        myCash -= annualCostOfLiving;
+        var currentWithdrawal = annualCostOfLiving * monthsPerDataPoint / 12.0;
+        myTotalContributions -= currentWithdrawal;
+        myShares -= currentWithdrawal / sp500[currentMarketMonth][1];
+        myCash -= currentWithdrawal;
     }
 
     if(usingMarket)
@@ -121,21 +122,21 @@ function pushNextDataPoint()
     }
     else if(myCash > 0)
     {
-        myCash = myCash * (1 + rateOfReturn);
+        myCash = myCash * (1 + rateOfReturn * monthsPerDataPoint / 12.0);
     }
 
     if(formData["adjustForInflation"])    
     {
-        myCash = myCash * (1 - rateOfInflation);
-        myShares = myShares * (1 - rateOfInflation);
+        myCash = myCash * (1 - rateOfInflation * monthsPerDataPoint / 12.0);
+        myShares = myShares * (1 - rateOfInflation * monthsPerDataPoint / 12.0);
     }
 
-    if(currentAge == retirementAge)
+    if(currentAge <= retirementAge)
     {
         investmentAtRetirement = myCash;
     }
 
-    if(currentAge == maxAge)
+    if(currentAge <= maxAge)
     {
         investmentAtMaxAge = myCash;        
     }
@@ -150,8 +151,8 @@ function pushNextDataPoint()
         null
     ]);    
 
-    currentAge++;
-    currentMarketMonth += 12;
+    currentAge +=  monthsPerDataPoint / 12.0;
+    currentMarketMonth += 1 * monthsPerDataPoint;
 }
 
 function updateChart()

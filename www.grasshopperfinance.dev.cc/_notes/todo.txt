@@ -16,13 +16,11 @@ XAdd net worth boxes
 XFix x-axis visibility
 XFix for mobile
 
+ - List of articles all coming up at AT-T?!
+
  - Add chart annotations for specific dates?
  - Hover help stuff on inflation, monthly investment, etc
  - Friendly form verification (retirement age must be a number and <100 and >= current age)
-
-
-
-Next Projects:
 
 
 Non-MVP
@@ -30,6 +28,7 @@ Non-MVP
    - Best score ever
    - Best score of the day
    - Trends by number of trades
+ - Session scores
 
 Site stuff
  - Make some sort of coherent home page
@@ -37,6 +36,7 @@ Site stuff
  - Look into bootstrap.build
 
 Other projects:
+ - Build out text messages 
  - Build a "beat the index" game (Pick 10 oldest stocks in the Dow Jones... checkboxes next to each, random 10 year period)
  - Lottery simulator (one per named game?)
 
