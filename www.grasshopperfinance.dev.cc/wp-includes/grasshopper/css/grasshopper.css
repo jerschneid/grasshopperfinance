@@ -162,6 +162,86 @@
 	font-size: 80%;
 }
 
+#calculate
+{
+	width: 80%;
+	height: 80%;
+	position: absolute;
+	right: 0;
+	bottom: 0;
+}
+
+#calculator-form
+{
+	font-size: 80%;
+}
+
+#calculator-chart
+{
+	width: 100%;
+	height: 400px;
+}
+
+
+#investmentValues
+{
+	display: flex;
+	justify-content: center;
+}
+
+#investmentValues .card
+{
+	width: 30%;
+	margin: 0 5px;
+	flex-shrink: 1;
+}
+
+#investmentValues #trades
+{
+	width: 20%;
+}
+
+#investmentValues .card-body, #investmentValues .card-header
+{
+	padding: 4px;
+	text-align: center;
+	font-size: 70%;
+}
+
+#investmentValues .card-body
+{
+	font-family: Courier New;
+	font-size: 100%;
+	font-weight: bold;
+	color: #025d11;
+}
+
+
+#investmentValues:first-child
+{
+	display: flex;
+	flex: 0 0 65%;
+}
+
+#market-span
+{
+	font-size: 60%;
+	width: 100%;
+	text-align: center;
+	margin: 8px 0;
+}
+
+
+.blue
+{
+	color: #3366cc;
+}
+
+.red
+{
+	color: #dc3912;
+}
+
 
 
 
@@ -173,20 +253,33 @@
 		height: 260px;	
 	}
 
-	#scoreBoard .card
+	#scoreBoard .card, #investmentValues .card
 	{
 		width: 45%;
 	}
 
-	#scoreBoard .card-header
+	#scoreBoard .card-header, #investmentValues .card-header
 	{
 		font-size: 80%;
+	}
+
+	#investmentAtMaxAge .card-header
+	{
+		line-height: 300%;
 	}
 
 	.hentry.card .card-body
 	{
 		padding: 0.5rem;
 	}
+
+	#calculate
+	{
+		width: 100%;
+		height: 60px;
+		position: relative;
+	}
+
 }
 
 

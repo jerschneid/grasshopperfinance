@@ -1,18 +1,31 @@
+
+   XChoose "last X years of S&P 500"
+   XChoose "Random period of S&P 500"
+   XStarting investment
+   XMonthly investment
+   XRetirement age
+   XAnnual cost of living
+   X"Account for inflation" check box?
+XMake work if starting values aren't changed (onload?)
+
+
 To do:
 
-XFix formatting
-XFix all caps headlines
-XAdd news article icon to chart?
-XInclude articles, dates and links in results
+XMake work for stock market
+XAdd net worth boxes
+XFix x-axis visibility
+XFix for mobile
 
-- Make news articles work on resetting game
-- Make sure there's a reasonable space after each headline change (maybe increment from the last headline?)
-- Make sure it fits on mobile
-- Remove all javascript console logging (way to minify and do this automatically or something?)
+ - Add chart annotations for specific dates?
+ - Hover help stuff on inflation, monthly investment, etc
+ - Friendly form verification (retirement age must be a number and <100 and >= current age)
+
+
+
+Next Projects:
 
 
 Non-MVP
- - Headlines of the day (wall street journal, your uncle, CNN money, Jim Kramer, Bloomberg?!)
  - High scores list
    - Best score ever
    - Best score of the day
@@ -20,22 +33,10 @@ Non-MVP
 
 Site stuff
  - Make some sort of coherent home page
- - Time the market game in top menu?
  - Make a "category" page for just texts?
  - Look into bootstrap.build
 
-
-Next Projects:
- - Build the "investment growth calculator"
-   - Choose rate of return (before/after inflation)
-   - Choose "last X years of S&P 500"
-   - Choose "Random period of S&P 500"
-   - Starting investment
-   - Monthly investment
-   - Retirement age
-   - Annual cost of living
-   - "Account for inflation" check box?
-
+Other projects:
  - Build a "beat the index" game (Pick 10 oldest stocks in the Dow Jones... checkboxes next to each, random 10 year period)
  - Lottery simulator (one per named game?)
 
@@ -43,7 +44,6 @@ Notes:
  - Yahoo Finance let's us download historical data, including dividends... But the prices and dividends come separately. Getting it into a single table might be rough (do we need to?)
  - The adjusted price does include dividends reinvested.
    - https://finance.yahoo.com/quote/VFINX/history
-   
 
 XCommit everything to source
 XFinish no cowboy coding thing
@@ -83,3 +83,12 @@ XClean up faster/slower buttons
 XLook at size of vfinx.js and reduce whitespace and decimals
 XMake sure all the records with the domain are correct (non www version?)
 XBUG: Clicking start too soon breaks stuff
+Fix formatting
+XFix all caps headlines
+XAdd news article icon to chart?
+XInclude articles, dates and links in results
+XMake news articles work on resetting game
+XMake sure there's a reasonable space after each headline change (maybe increment from the last headline?)
+XMake sure it fits on mobile
+XRemove all javascript console logging (way to minify and do this automatically or something?)
+XHeadlines of the day (wall street journal, your uncle, CNN money, Jim Kramer, Bloomberg?!)
