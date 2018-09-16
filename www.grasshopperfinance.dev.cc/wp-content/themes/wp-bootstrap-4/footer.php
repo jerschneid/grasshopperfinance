@@ -56,12 +56,7 @@
 
 		<div class="container">
 			<div class="site-info">
-				<a href="<?php echo esc_url( 'https://bootstrap-wp.com/' ); ?>"><?php esc_html_e( 'Bootstrap 4 WordPress Theme', 'wp-bootstrap-4' ); ?></a>
-				<span class="sep"> | </span>
-				<?php
-					/* translators: 1: Theme name. */
-					printf( esc_html__( 'Theme Name: %1$s.', 'wp-bootstrap-4' ), 'WP Bootstrap 4' );
-				?>
+				<a href="/about">About This Site</a>
 			</div><!-- .site-info -->
 		</div>
 		<!-- /.container -->
