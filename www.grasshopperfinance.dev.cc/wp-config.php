@@ -11,6 +11,10 @@
 if ( !defined('ABSPATH') )
     define('ABSPATH', dirname(__FILE__) . '/');
 
+#Define Sprimary url
+define( 'WP_HOME', 'http://www.personalfinanceclub.com' );
+define( 'WP_SITEURL', 'http://www.personalfinanceclub.com' );
+
 /** Load the Studio 24 WordPress Multi-Environment Config. */
 require_once(ABSPATH . 'wp-config.load.php');
 
