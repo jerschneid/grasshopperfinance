@@ -302,3 +302,42 @@
   height: 400px;
   border: 5px dashed #A7E040;
 }
+
+
+/***** Home Page Styles *****/
+#home-page .card 
+{
+	margin-bottom: 1em;
+}
+
+#home-page .card-header
+{
+	cursor: pointer;
+}
+
+#home-page .habit .card-header
+{
+	background-color: #a9e4ff;
+}
+
+#home-page .plan .card-header
+{
+	background-color: #80d6fd;
+}
+
+#home-page .rule .card-header
+{
+	background-color: #50c8ff;
+}
+
+
+#home-page .expand-icon
+{
+	/* Let's just keep this hidden as we need to switch it to a plus/minus and clicking is obvious? */
+	display: none;
+	font-size: 150%;
+	font-weight: bold;
+	position: absolute;
+	right: 0.8em;
+	top: 0.1em;
+}

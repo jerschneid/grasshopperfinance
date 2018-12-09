@@ -27,11 +27,11 @@ function load_scripts() {
                 wp_enqueue_script('babel-standalone', 'https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/6.26.0/babel.min.js', null, '6.26.0', false);                
 
                 //Todo: Find a better way to include production versions on live site
-//                wp_enqueue_script('react', 'https://unpkg.com/react@16/umd/react.production.min.js', array('babel-standalone'), '16', false);                
-//                wp_enqueue_script('react-dom', 'https://unpkg.com/react-dom@16/umd/react-dom.production.min.js', array('react'), '16', false);                
+                wp_enqueue_script('react', 'https://unpkg.com/react@16/umd/react.production.min.js', array('babel-standalone'), '16', false);                
+                wp_enqueue_script('react-dom', 'https://unpkg.com/react-dom@16/umd/react-dom.production.min.js', array('react'), '16', false);                
 
-                wp_enqueue_script('react', 'https://unpkg.com/react@16/umd/react.development.js', array('babel-standalone'), '16', false);                
-                wp_enqueue_script('react-dom', 'https://unpkg.com/react-dom@16/umd/react-dom.development.js', array('react'), '16', false);                
+//                wp_enqueue_script('react', 'https://unpkg.com/react@16/umd/react.development.js', array('babel-standalone'), '16', false);                
+ //               wp_enqueue_script('react-dom', 'https://unpkg.com/react-dom@16/umd/react-dom.development.js', array('react'), '16', false);                
 
 
 

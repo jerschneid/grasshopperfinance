@@ -2,6 +2,12 @@
 //import React from 'react';
 //import ReactDOM from 'react-dom';
 
+
+
+
+*/
+
+
 var calculator;
 var formData = [];
 
@@ -326,7 +332,7 @@ class GrowthCalculator extends React.Component
                       </div>
                     </div>
                      <div className="col-md-4 mb-3">
-                        <button id="calculate" className="btn btn-primary btn-lg" onClick={this.calculate   }>Calculate!</button>
+                        <button id="calculate" className="btn btn-primary btn-lg" onClick={this.calculateClick}>Calculate!</button>
                      </div>
                   </div>
 

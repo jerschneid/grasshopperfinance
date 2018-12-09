@@ -1,16 +1,23 @@
-
-   XChoose "last X years of S&P 500"
-   XChoose "Random period of S&P 500"
-   XStarting investment
-   XMonthly investment
-   XRetirement age
-   XAnnual cost of living
-   X"Account for inflation" check box?
-XMake work if starting values aren't changed (onload?)
-
-
 To do:
 
+Finish home page:
+XUnderstand templates to remove title at top
+XMake all those steps bubble open with details below
+ - Make bubbling smoother
+ - Make bubbles nicer colors
+ - Fill in all content
+ 
+ - Fix functions.php to include produciton version of react on live site
+
+Before you begin: Change your habits
+ - Make first three steps preliminary?
+Follow the steps:
+ - Turn 7 into separate steps?
+The rules of investing:
+ - The 8 rules of investing
+
+
+Reblancing tool: (Forget what this is about)
 Use a multi-range slider? https://leaverou.github.io/multirange/
 Drop down of daily, monthly, quarterly, yearly
 Live pie chart of asset allocation?
@@ -48,6 +55,8 @@ Other projects:
  - Build a "beat the index" game (Pick 10 oldest stocks in the Dow Jones... checkboxes next to each, random 10 year period)
  - Lottery simulator (one per named game?)
  - Some sort of visualization for the study that looked at actively managed mutual funds vs index funds. (Runners in a race... 3rd out of 1,000)
+ - Interactive what to do with money tool?
+ - Landing page
 
 Notes:
  - Yahoo Finance let's us download historical data, including dividends... But the prices and dividends come separately. Getting it into a single table might be rough (do we need to?)
@@ -105,3 +114,11 @@ XMake work for stock market
 XAdd net worth boxes
 XFix x-axis visibility
 XFix for mobile
+XChoose "last X years of S&P 500"
+XChoose "Random period of S&P 500"
+XStarting investment
+XMonthly investment
+XRetirement age
+XAnnual cost of living
+X"Account for inflation" check box?
+XMake work if starting values aren't changed (onload?)
