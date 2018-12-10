@@ -89,7 +89,12 @@ get_header(); ?>
                 <div id="collapseP1" class="collapse" aria-labelledby="headingP1">
                   <div class="card-body">
                     <ul>
-                        <li>
+                        <li><strong>Being broke is expensive:</strong> Overdraft fees, credit card interest, 
+                        payday loans, utility and rent deposits, etc. Getting out of this trap is the first step to becoming wealthy.
+                        <li><strong>Most Americans are broke: </strong>
+                        <a href="https://money.cnn.com/2011/08/10/pf/emergency_fund/">64% of Americans
+                        can't afford a $1,000 emergency expense</a>. 
+                        </li>
                     </ul>
                   </div>
                 </div>
@@ -100,7 +105,11 @@ get_header(); ?>
                 </div>
                 <div id="collapseP2" class="collapse" aria-labelledby="headingP2">
                   <div class="card-body">
-                    ###
+                    <ul>
+                        <li><strong>Employer sponsored:</strong> Some employers offer a 401k or 403b retirement investment account. Not all do. If your employer doesn't offer one, skip this step.</li>
+                        <li><strong>Some match:</strong> Some employers who offer a 401k or 403b will contribute money to YOUR account on your behaf ONLY IF you also contribute. If your employer doesn't match, skip this step.
+                        <li><strong>Free money:</strong> This match represents an instant 100% return on your money. Not making this contribution is essentially throwing away money. 
+                    </ul>
                   </div>
                 </div>
             </div> 
@@ -110,7 +119,11 @@ get_header(); ?>
                 </div>
                 <div id="collapseP3" class="collapse" aria-labelledby="headingP3">
                   <div class="card-body">
-                    ###
+                    <ul>
+                        <li><strong>Seriously:</strong> Yes, seriously. Pay off ALL of your debt except your mortgage. And never use consumer debt again.</li>
+                        <li><strong>No payments:</strong> When you have <i>no payments</i> on stuff you bought in the past, you can use the full power of your income to invest and build wealth.</li>
+                        <li><strong>Down escalator:</strong> Trying to invest and build wealth while debt is pulling you down is like running up the down escalator. Get rid of the debt first, then put your full focus on building wealth.</li>
+                    </ul>
                   </div>
                 </div>
             </div> 
@@ -120,15 +133,25 @@ get_header(); ?>
                 </div>
                 <div id="collapseP4" class="collapse" aria-labelledby="headingP4">
                   <div class="card-body">
-                    ###
+                    
                   </div>
                 </div>
             </div> 
             <div class="card plan">
                 <div class="card-header" id="headingP5" data-toggle="collapse" data-target="#collapseP5" aria-expanded="true" aria-controls="collapseP5">
-                     5. Invest!
+                     5. Invest in tax advantaged accounts
                 </div>
                 <div id="collapseP5" class="collapse" aria-labelledby="headingP5">
+                  <div class="card-body">
+                    ###
+                  </div>
+                </div>
+            </div> 
+            <div class="card plan">
+                <div class="card-header" id="headingP6" data-toggle="collapse" data-target="#collapseP6" aria-expanded="true" aria-controls="collapseP6">
+                     6. Invest more
+                </div>
+                <div id="collapseP6" class="collapse" aria-labelledby="headingP6">
                   <div class="card-body">
                     ###
                   </div>
