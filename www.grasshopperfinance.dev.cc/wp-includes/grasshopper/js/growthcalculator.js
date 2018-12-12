@@ -326,7 +326,7 @@ class GrowthCalculator extends React.Component
                       </div>
                     </div>
                      <div className="col-md-4 mb-3">
-                        <button id="calculate" className="btn btn-primary btn-lg" onClick={this.calculate   }>Calculate!</button>
+                        <button id="calculate" className="btn btn-primary btn-lg" onClick={this.calculateClick}>Calculate!</button>
                      </div>
                   </div>
 
@@ -359,8 +359,8 @@ class GrowthCalculator extends React.Component
 
                 <h3>How does this work?</h3>
                 <ul>
-                    <li>The <span class="red">red</span> line above represents your total investment value over time.</li>
-                    <li>The <span class="blue">blue</span> line above represents your actual cash total contribution and withdrawals.</li>
+                    <li>The <span className="red">red</span> line above represents your total investment value over time.</li>
+                    <li>The <span className="blue">blue</span> line above represents your actual cash total contribution and withdrawals.</li>
                     <li>If the red line ever goes below zero, you went bankrupt.</li>
                     <li>The chart is calculated by beginning with your starting investment, then every year until retirement adds your monthly investment (times 12) and
                         adjusts your investment for growth (either fixed percentage or based on gain of the market).
