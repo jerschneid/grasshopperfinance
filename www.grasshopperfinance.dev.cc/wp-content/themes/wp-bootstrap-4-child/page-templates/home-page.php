@@ -21,6 +21,8 @@ get_header(); ?>
             <p>Below you'll find the habits, steps, and rules to become a multi-millionaire. This is the simple, 
                 tried-and-true method to live below your means, invest well and become wealthy over time.
             </p>
+
+            <a name="thehabits"></a>            
             <h4>The Habits</h4>
             <p>
                 These three life long habits are the bedrock on which you can build and stay wealthy.
@@ -79,7 +81,7 @@ get_header(); ?>
                 </div>
             </div> 
 
-
+            <a name="theplan"></a>
             <h4>The Plan</h4>
             <p>These are the step-by-step instructions to become a multi-millionaire. Do these in order. Don’t move to the next one until you finish the previous.</p>
             <div class="card plan">
@@ -122,7 +124,8 @@ get_header(); ?>
                     <ul>
                         <li><strong>Seriously:</strong> Yes, seriously. Pay off ALL of your debt except your mortgage. And never use consumer debt again.</li>
                         <li><strong>No payments:</strong> When you have <i>no payments</i> on stuff you bought in the past, you can use the full power of your income to invest and build wealth.</li>
-                        <li><strong>Down escalator:</strong> Trying to invest and build wealth while debt is pulling you down is like running up the down escalator. Get rid of the debt first, then put your full focus on building wealth.</li>
+                        <li><strong>Down escalator:</strong> Trying to invest and build wealth while still
+                        in debt is like running up the down escalator. Get rid of the debt first, then put your full focus on building wealth.</li>
                     </ul>
                   </div>
                 </div>
@@ -133,7 +136,17 @@ get_header(); ?>
                 </div>
                 <div id="collapseP4" class="collapse" aria-labelledby="headingP4">
                   <div class="card-body">
-                    
+                    <ul>
+                        <li><strong>Do not invest:</strong> Put this money in a savings or money market account
+                            separate from your checking account where you pay your bills.
+                        </li>
+                        <li><strong>Forget about it:</strong> Forget about it and move to the next step. When you have an actual emergency
+                        you'll know you need it.</li>
+                        <li><strong>Not-poor insurance:</strong>  Your emergency fund does the important job of acting as
+                            "not poor insurance". When you have an emergency, you don't want to fall back to the gauntlet of being poor 
+                            (overdraft fees, credit card interest, payday loans, etc.) By leaving your emergency fund in cash it's helping
+                            to build your future wealth by not letting yourself fall back into the trap of being poor.
+                    </ul>
                   </div>
                 </div>
             </div> 
@@ -143,7 +156,13 @@ get_header(); ?>
                 </div>
                 <div id="collapseP5" class="collapse" aria-labelledby="headingP5">
                   <div class="card-body">
-                    ###
+                    <li><strong>Government deal:</strong> The US goverment has decided they don't want a bunch of broke old people. So they made these special accounts you can invest inside of with greatly reduced tax implications. Over time the tax savings can be in the millions.</li>
+                    <li><strong>Use it or lose it:</strong> These accounts are "use it or lose it" so if you don't contribute money, the benefit disappears each year. Figure out which ones you are eligible for and contribute.</li>
+                    <li><strong>Roth IRA first:</strong> For most, the first best place to contribute for retirement is a Roth IRA. In 2019 the max contribution is $6,000 per year.</li>
+                    <li><strong>401(k) or 403(b) next:</strong> If you have one, you started contributing up in step two. Now it's time to fill up the rest. Up to $19,000 per year in 2019.</li>
+                    <li><strong>Invest inside</strong> It's important to understand that Roth IRA, 401k, etc are just names of accounts inside of which has stuff (like stocks, bonds, cash, mutual funds, etc). Once you contribute cash, you need to <i>invest</i> that money in order for it to grow exponentially. See <a href="#therules">the rules</a> of investing below to learn how to invest smart.
+                    <li><strong>Multi-millionaire status:</strong> If you do nothing else but stay out of debt and max out your Roth IRA and 401(k), that will be $25,000 per year invested. If you do that over a 30 year career and earn 10% on your investments along the way you'll have over $4.6 million at retirement. And over $31 million 20 years after retirement, even when you're spending instead of working.
+                    <li><strong>Advanced options:</strong> Depending on your situation, you may be eligible for a SEP IRA, Solo 401(k) or backdoor or mega backdoor Roth IRA. Hire a capable CPA to help navigate these options.</li>
                   </div>
                 </div>
             </div> 
@@ -153,11 +172,15 @@ get_header(); ?>
                 </div>
                 <div id="collapseP6" class="collapse" aria-labelledby="headingP6">
                   <div class="card-body">
-                    ###
+                    <li><strong>The fun part:</strong> If you're on step six, you've done awesome! You're well on your way to multi-millonaire status. Now you get some choices in how you invest:</li>
+                    <li><strong>Pay off your mortgage:</strong> This is a guaranteed win. Save your X% per year on the mortgage rates. When you own your home free and clear, think of what you can do with the power of those payments you use used to make to the bank</li>
+                    <li><strong>Taxable brokerage account:</strong> Just as the above tax-advantaged accounts, you can invest further in equities in a regular/taxable brokerage account. It's nice to do it in a tax-advantaged account, but as they say, you only get taxed on it if you make it, so it's a good problem to have.</li>
+                    <li><strong>Investment real estate:</strong> A huge opportunity to build wealth, whether it's buying a single family home to turn into a rental, flipping homes or something larger. Find a local who is successful and ask them to lunch to pick their brains. Read a book and get started!</li>
                   </div>
                 </div>
             </div> 
 
+            <a name="therules"></a>
             <h4>The Rules</h4>
             <p>These are the rules of smart investing.</p>
             <div class="card rule">
@@ -166,7 +189,8 @@ get_header(); ?>
                 </div>
                 <div id="collapseR1" class="collapse" aria-labelledby="headingR1">
                   <div class="card-body">
-                    ###
+                     <li><strong>See above:</strong> <a href="theplan">The Plan</a> above is a great framework to start from.</li>
+                     <li><strong>Make specific:</strong> Include how much to invest in each account, and what you'll invest in.</li>
                   </div>
                 </div>
             </div> 
@@ -176,7 +200,9 @@ get_header(); ?>
                 </div>
                 <div id="collapseR2" class="collapse" aria-labelledby="headingR2">
                   <div class="card-body">
-                    ###
+                     <li><strong>Diversify:</strong> In a word, diversify. That means spread your investments across lots of different things in different asset clases. For example, US Stocks, international stocks and bonds are three different major asset classes to diversify between.</li>
+                     <li><strong>Too much risk is bad:</strong> Putting 100% of your money in bitcoin has resulted in losing 80%+ in the past. Putting 100% in a single tech stock could go to zero if that company folds. Putting 100% in a single asset class exposes you to risk and volatility without additional benefit.</li>
+                     <li><strong>Too little risk is bad:</strong> Being afraid of the market and keeping all your money in cash and bonds prevents you from taking advantage of the massive upside potential and guarantees your money slowly erodes to inflation.</li>
                   </div>
                 </div>
             </div> 
@@ -186,7 +212,9 @@ get_header(); ?>
                 </div>
                 <div id="collapseR3" class="collapse" aria-labelledby="headingR3">
                   <div class="card-body">
-                    XXX
+                     <li><strong>This is how you lose:</strong> The stock market goes up by about 10% per year over long periods of time, but most investors earn signficantly less due to these bad behaviors.</li>
+                     <li><strong>Don't time the market:</strong> Timing the market is getting in and out based on what you think it will do in the future. Or changing your asset allocation based on news or projections. <a href="/time-the-market-game">Timing the market is hard</a> and almost guarantees losing to the market with very little potential to far exceed the market.</li>
+                     <li><strong>Don't chase past performance:</strong> When looking at investment options, it's natural to look at how they have performed in the past. But jumping into the options that did great in recent history is a sure way to underperform the market. Investing in what just went up is "buying high".</li>
                   </div>
                 </div>
             </div> 
@@ -196,7 +224,10 @@ get_header(); ?>
                 </div>
                 <div id="collapseR4" class="collapse" aria-labelledby="headingR4">
                   <div class="card-body">
-                        XXX
+                     <li><strong>:</strong> </li>
+                     <li><strong>:</strong> </li>
+                     <li><strong>:</strong> </li>
+                     <li><strong>:</strong> </li>
                   </div>
                 </div>
             </div> 
@@ -206,7 +237,10 @@ get_header(); ?>
                 </div>
                 <div id="collapseR5" class="collapse" aria-labelledby="headingR5">
                   <div class="card-body">
-                    ###
+                     <li><strong>:</strong> </li>
+                     <li><strong>:</strong> </li>
+                     <li><strong>:</strong> </li>
+                     <li><strong>:</strong> </li>
                   </div>
                 </div>
             </div> 
@@ -216,7 +250,10 @@ get_header(); ?>
                 </div>
                 <div id="collapseR6" class="collapse" aria-labelledby="headingR6">
                   <div class="card-body">
-                    ###
+                     <li><strong>:</strong> </li>
+                     <li><strong>:</strong> </li>
+                     <li><strong>:</strong> </li>
+                     <li><strong>:</strong> </li>
                   </div>
                 </div>
             </div> 
@@ -226,7 +263,10 @@ get_header(); ?>
                 </div>
                 <div id="collapseR7" class="collapse" aria-labelledby="headingR7">
                   <div class="card-body">
-                    ###
+                     <li><strong>:</strong> </li>
+                     <li><strong>:</strong> </li>
+                     <li><strong>:</strong> </li>
+                     <li><strong>:</strong> </li>
                   </div>
                 </div>
             </div> 

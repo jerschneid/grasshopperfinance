@@ -3,33 +3,37 @@ To do:
 Finish home page:
 XUnderstand templates to remove title at top
 XMake all those steps bubble open with details below
- - Make bubbling smoother
- - Make bubbles nicer colors
+XMake bubbling smoother
  - Fill in all content
- 
- - Fix functions.php to include produciton version of react on live site
-
-Before you begin: Change your habits
- - Make first three steps preliminary?
-Follow the steps:
- - Turn 7 into separate steps?
-The rules of investing:
- - The 8 rules of investing
+ - Fill out the deuce thing
 
 
-Reblancing tool: (Forget what this is about)
+
+====== Reblancing tool: ======
+A tool game that lets you see how rebalancing affects growth compared to non-rebalanced.
+ - Choose asset allocation
+ - Choose rebalance schedule
+ - See real performance over time
+
 Use a multi-range slider? https://leaverou.github.io/multirange/
 Drop down of daily, monthly, quarterly, yearly
 Live pie chart of asset allocation?
 Live chart of returns compared to unbalanced... Growth of $10,000
 Show dates invested
 
-
-Funds:
+Funds (origination year):
 VFINX (76)
 VGTSX (96)
 VBMFX (86)
 
+
+====== Site stuff ========
+ - Make some sort of coherent home page
+ - Make a "category" page for just texts?
+ - Look into bootstrap.build
+ - Get SSL cert
+
+==== Time the market game ======
 
  - List of articles all coming up at AT-T?!
  - Add chart annotations for specific dates?
@@ -44,12 +48,7 @@ Non-MVP
    - Trends by number of trades
  - Session scores
 
-Site stuff
- - Make some sort of coherent home page
- - Make a "category" page for just texts?
- - Look into bootstrap.build
-
-Other projects:
+===== Other projects ======
  - Build out text messages
  - Value of rebalancing tool... US, international and bond funds 
  - Build a "beat the index" game (Pick 10 oldest stocks in the Dow Jones... checkboxes next to each, random 10 year period)
