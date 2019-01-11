@@ -15,6 +15,7 @@ function Init()
     formData["annualCostOfLiving"] = 48000;
     formData["rateOfReturnSelect"] = "random";    
     formData["adjustForInflation"] = true;
+    formData["startingYear"] = 1950;
 
     ReactDOM.render(<GrowthCalculator ref={(calculator) => {window.calculator = calculator}} />, document.getElementById("root"));
 }
@@ -45,7 +46,7 @@ var investmentAtMaxAge = 0;
 var firstMarketMonth = 0;
 var currentMarketMonth = 0;
 var lastMarketMonth = 0;
-var monthsPerDataPoint = 4;
+var monthsPerDataPoint = 1;
 
 function initChart() 
 {
@@ -66,13 +67,38 @@ function initChart()
     currentAge = age;
 
 
-    //Pick a random starting between 0 and the last week minus the span
     const numMonths = sp500.length;
     var spanMonths = (maxAge - age) * 12;
-    firstMarketMonth = currentMarketMonth = Math.floor(Math.random() * (numMonths - spanMonths));
+
+
+    //Pick a random starting between 0 and the last week minus the span
+    firstMarketMonth = Math.floor(Math.random() * (numMonths - spanMonths));
+
+    //Jump to the correct year
+    if(formData["rateOfReturnSelect"] == "startingYear")
+    {
+        var firstYear = parseInt(sp500[0][0].substr(0,4))
+        var startingMonth = (formData["startingYear"] - firstYear) * 12;
+
+        if(startingMonth >= 0 && startingMonth < numMonths - spanMonths)
+        {
+            firstMarketMonth = startingMonth;
+        }
+        else if(startingMonth < 0)
+        {
+            firstMarketMonth = 0;
+        }
+        else
+        {
+            firstMarketMonth = numMonths - spanMonths - 1;
+        }
+    }
+
+    currentMarketMonth = firstMarketMonth;
     lastMarketMonth = firstMarketMonth + spanMonths;
 
-    if(formData["rateOfReturnSelect"] == "random" || formData["rateOfReturnSelect"] == "recent")
+
+    if(formData["rateOfReturnSelect"] == "random" || formData["rateOfReturnSelect"] == "recent" || formData["rateOfReturnSelect"] == "startingYear")
     {
         usingMarket = true;
         myShares = myCash / sp500[currentMarketMonth][1];
@@ -141,8 +167,6 @@ function pushNextDataPoint()
         investmentAtMaxAge = myCash;        
     }
 
-    calculator.updateInvestmentValues();
-
     chartData.addRow([
         currentAge,
         myTotalContributions,
@@ -157,7 +181,6 @@ function pushNextDataPoint()
 
 function updateChart()
 {
-
     while(currentAge <= maxAge)
     {
         pushNextDataPoint();
@@ -166,6 +189,8 @@ function updateChart()
     //Put into a view so we can hide the SMA if box is unchecked
     var view = new google.visualization.DataView(chartData);
     chart.draw(view, options);
+
+    calculator.updateInvestmentValues();
 }
 
 
@@ -198,11 +223,13 @@ class GrowthCalculator extends React.Component
             retirementAge: formData["retirementAge"],
             usingMarket: usingMarket,
             marketSpan: null,
-            isChecked: formData["adjustForInflation"]
+            isChecked: formData["adjustForInflation"],
+            showStartingYear: false
         }
 
         this.calculateClick = this.calculateClick.bind(this);
         this.handleFormChange = this.handleFormChange.bind(this);
+        this.handleRateOfReturnChange = this.handleRateOfReturnChange.bind(this);
     }
 
     componentDidMount() 
@@ -216,6 +243,14 @@ class GrowthCalculator extends React.Component
         event.preventDefault();
 
         this.setState({ retirementAge: formData["retirementAge"]});
+
+
+        // //For each year from the beginning to the end
+        // var startMonth = 0;
+
+        // while(startMonth < )
+
+
 
         initChart();
         updateChart();
@@ -235,14 +270,34 @@ class GrowthCalculator extends React.Component
             formData[event.target.name] = event.target.value;
         }
 
+        return true;
+    }
 
+    handleRateOfReturnChange(event)
+    {
+        console.log("handleRateOfReturnChange")
+
+        this.handleFormChange(event);
+
+        var showStartingYear = false;
+
+        if(formData["rateOfReturnSelect"] == "startingYear")
+        {
+            showStartingYear = true;
+        }
+
+        this.setState({ showStartingYear: showStartingYear});
 
         return true;
     }
 
     updateInvestmentValues()
     {
-        var marketSpan = formatDate(sp500[firstMarketMonth][0]) + " through " + formatDate(sp500[lastMarketMonth][0]);
+        //Not entirely sure why this needs to happen, but without it the market span is printing as a day earlier...
+        var startDate = new Date(sp500[firstMarketMonth][0]);
+        startDate.setDate(startDate.getDate() + 1);
+
+        var marketSpan = formatDate(startDate) + " through " + formatDate(sp500[lastMarketMonth][0]);
 
         this.setState({
             netWorthAtRetirement: investmentAtRetirement,
@@ -286,8 +341,9 @@ class GrowthCalculator extends React.Component
                   <div className="form-row">
                     <div className="col-md-7 mb-3">
                       <label htmlFor="rateOfReturnSelect">Rate of Return</label>
-                      <select onChange={this.handleFormChange} className="form-control" name="rateOfReturnSelect">
-                          <option value="random">Random period of actual S&P 500 returns</option>
+                      <select onChange={this.handleRateOfReturnChange} className="form-control" name="rateOfReturnSelect">
+                          <option value="random">Random period of S&P 500 returns</option>
+                          <option value="startingYear">Choose starting year of S&P 500 returns</option>
                           <option value="0">0%</option>
                           <option value="1">1%</option>
                           <option value="2">2%</option>
@@ -303,7 +359,15 @@ class GrowthCalculator extends React.Component
                           <option value="12">12%</option>
                       </select>
                     </div>
-                    <div className="col-md-4 mb-3 ml-4 pt-4">
+                    { 
+                        this.state.showStartingYear ?                    
+                        <div className="col-md-2 mb-3">
+                            <label htmlFor="startingYear">Starting Year</label>
+                            <input onChange={this.handleFormChange} name="startingYear" type="text" className="form-control" id="startingYear" placeholder={formData["startingYear"]} />
+                        </div>                    
+                        : null
+                    }
+                    <div className="col-md-2 mb-3 ml-4 pt-4">
                       <input onChange={this.handleFormChange} className="form-check-input" type="checkbox" checked={formData["adjustForInflation"]} name="adjustForInflation" />
                       <label className="form-check-label" htmlFor="adjustForInflation">
                         Adjust for Inflation
