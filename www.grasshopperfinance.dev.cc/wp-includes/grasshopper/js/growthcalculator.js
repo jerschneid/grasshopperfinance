@@ -121,8 +121,6 @@ function initChart()
 
     chart = new google.visualization.ComboChart(document.getElementById('calculator-chart'));
     chart.draw(chartData, options);
-
-    console.log("Finished initChart()");
 }
 
 function pushNextDataPoint()
@@ -245,15 +243,34 @@ class GrowthCalculator extends React.Component
         this.setState({ retirementAge: formData["retirementAge"]});
 
 
+        // // Was used temporarly to run an "every time" type scenario
         // //For each year from the beginning to the end
-        // var startMonth = 0;
+        // var startYear = 1871;
+        // var results = [];
 
-        // while(startMonth < )
+        // while(startYear <= 1979)
+        // {
 
 
+        //     formData["startingInvestment"] = 0;
+        //     formData["age"] = 40;
+        //     formData["retirementAge"] = 80;
+        //     formData["rateOfReturnSelect"] = "startingYear";
+        //     formData["startingYear"] = startYear;
 
-        initChart();
-        updateChart();
+            initChart();
+            updateChart();
+
+
+        //     var result = [startYear, investmentAtRetirement];
+        //     results.push(result);
+
+        //     console.log(startYear + "\t" + investmentAtRetirement)
+
+        //     startYear++;
+        // }
+
+        // console.log(results);
     }
 
     handleFormChange(event)

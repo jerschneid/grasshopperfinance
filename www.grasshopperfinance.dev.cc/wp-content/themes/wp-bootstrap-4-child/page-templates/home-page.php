@@ -182,7 +182,7 @@ get_header(); ?>
 
             <a name="therules"></a>
             <h4>The Rules</h4>
-            <p>These are the rules of smart investing.</p>
+            <p>These are the rules of smart investing, borrowed and simplifed from the <a target="_blank" href="https://www.bogleheads.org/wiki/Bogleheads%C2%AE_investment_philosophy">Boglehead investment philosophy.</a></p>
             <div class="card rule">
                 <div class="card-header" id="headingR1" data-toggle="collapse" data-target="#collapseR1" aria-expanded="true" aria-controls="collapseR1">
                      Rule #1: Develop a workable plan
@@ -190,7 +190,7 @@ get_header(); ?>
                 <div id="collapseR1" class="collapse" aria-labelledby="headingR1">
                   <div class="card-body">
                      <li><strong>See above:</strong> <a href="theplan">The Plan</a> above is a great framework to start from.</li>
-                     <li><strong>Make specific:</strong> Include how much to invest in each account, and what you'll invest in.</li>
+                     <li><strong>Be specific:</strong> Include how much to invest in each account, and what you'll invest in.</li>
                   </div>
                 </div>
             </div> 
@@ -213,7 +213,7 @@ get_header(); ?>
                 <div id="collapseR3" class="collapse" aria-labelledby="headingR3">
                   <div class="card-body">
                      <li><strong>This is how you lose:</strong> The stock market goes up by about 10% per year over long periods of time, but most investors earn signficantly less due to these bad behaviors.</li>
-                     <li><strong>Don't time the market:</strong> Timing the market is getting in and out based on what you think it will do in the future. Or changing your asset allocation based on news or projections. <a href="/time-the-market-game">Timing the market is hard</a> and almost guarantees losing to the market with very little potential to far exceed the market.</li>
+                     <li><strong>Don't time the market:</strong> Timing the market is getting in and out based on what you think it will do in the future. Or changing your asset allocation based on news or projections. <a href="/time-the-market-game">Timing the market is hard</a> and almost guarantees losing to the market with very little potential to exceed the market by much.</li>
                      <li><strong>Don't chase past performance:</strong> When looking at investment options, it's natural to look at how they have performed in the past. But jumping into the options that did great in recent history is a sure way to underperform the market. Investing in what just went up is "buying high".</li>
                   </div>
                 </div>
@@ -224,10 +224,9 @@ get_header(); ?>
                 </div>
                 <div id="collapseR4" class="collapse" aria-labelledby="headingR4">
                   <div class="card-body">
-                     <li><strong>:</strong> </li>
-                     <li><strong>:</strong> </li>
-                     <li><strong>:</strong> </li>
-                     <li><strong>:</strong> </li>
+                     <li><strong>Fees Destroy Returns:</strong> Money invested for 40 years at 9% will grow to only 2/3 of the same money invested at 10%. That one
+                     tiny little percent in fees can cost you a THIRD of your nest egg at retirement.</li>
+                     <li><strong>Invest in index funds:</strong> On average, low cost index funds are guaranteed to beat actively managed funds after fees.</li>
                   </div>
                 </div>
             </div> 
@@ -237,10 +236,8 @@ get_header(); ?>
                 </div>
                 <div id="collapseR5" class="collapse" aria-labelledby="headingR5">
                   <div class="card-body">
-                     <li><strong>:</strong> </li>
-                     <li><strong>:</strong> </li>
-                     <li><strong>:</strong> </li>
-                     <li><strong>:</strong> </li>
+                     <li><strong>Use tax-advantaged accounts:</strong> Like a Roth IRA, 401k, 403b, SEP IRA, etc.<a href="#theplan">the plan</a> above.</li>
+                     <li><strong>Invest in index funds:</strong> They're cheaper and more tax efficient than actively managed mutual funds.</li>
                   </div>
                 </div>
             </div> 
@@ -250,10 +247,9 @@ get_header(); ?>
                 </div>
                 <div id="collapseR6" class="collapse" aria-labelledby="headingR6">
                   <div class="card-body">
-                     <li><strong>:</strong> </li>
-                     <li><strong>:</strong> </li>
-                     <li><strong>:</strong> </li>
-                     <li><strong>:</strong> </li>
+                     <li><strong>Don't give yourself too much rope:</strong> Don't own 10 funds when 3 will do. (Hint, 10 funds aren't necessarily more diversified. Those 3 funds my own every stock on the planet inside of them). More funds mean more opportunities to break all of the above rules and make bad emotional decisions.</li>
+                     <li><strong>Use a target date index fund if possible:</strong> Putting 100% of your long term investment funds in a target date index fund follows every rule on this list and is ultimately simple.</li>
+                     <li><strong>Enjoy life:</strong> A simpler portfolio is likely to perform better and make your life easier. Why not kill two birds with one stone and go have a beer.</li>
                   </div>
                 </div>
             </div> 
@@ -263,13 +259,29 @@ get_header(); ?>
                 </div>
                 <div id="collapseR7" class="collapse" aria-labelledby="headingR7">
                   <div class="card-body">
-                     <li><strong>:</strong> </li>
-                     <li><strong>:</strong> </li>
-                     <li><strong>:</strong> </li>
-                     <li><strong>:</strong> </li>
+                     <li><strong>Buy and hold:</strong> Plan to never sell and collect growth and dividends forever.</li>
+                     <li><strong>Set it and forget it:</strong> It's not just a great line from an infomercial, it's also a great investment strategy. Tinkering with your portfolio is likely to cause you to lose to the market.</li>
+                     <li><strong>Don't panic:</strong> The market has always had volatility. But you don't lose money until you sell. Remember you have a long term horizon and when the market drops it's an opportunity to buy more at a discount. Even in retirement you'll just sell a small bit at a time so the majority of your portfolio will have years to recover and grow.</li>
                   </div>
                 </div>
-            </div> 
+            </div>
+
+            <a name="thetldr"></a>
+            <h4>The TLDR (too long didn't read)</h4>
+            <p>
+                If you don't want to go through everything above, here's the nuts and bolts of it. Follow these TWO steps to achieve millionaire status:
+            </p>
+            <div class="card tldr">
+                <div class="card-header" id="headingT1">
+                     Step 1: Get and stay out of debt
+                </div>
+            </div>
+            <div class="card tldr">
+                <div class="card-header" id="headingT2">
+                     Step 2: Invest early and often in a target retirement date index fund
+                </div>
+            </div>                        
+
 
         </div><!-- .entry-content -->
     </div>
