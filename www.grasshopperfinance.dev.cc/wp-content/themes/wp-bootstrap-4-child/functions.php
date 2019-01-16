@@ -52,23 +52,23 @@ add_action('wp_enqueue_scripts', 'my_theme_enqueue_styles' );
 add_action('wp_enqueue_scripts', 'load_scripts');
 
 
-add_filter( 'wp_nav_menu_items','add_search_box', 10, 2 );
-function add_search_box( $items, $args ) 
-{
+// add_filter( 'wp_nav_menu_items','add_search_box', 10, 2 );
+// function add_search_box( $items, $args ) 
+// {
  
-    $newmenu =  "Jeremy" + $items;
-    // '<li id="followlinks">
-    //     <span>Follow us:</span>
-    //     <a href="https://www.instagram.com/personalfinanceclub">
-    //         <img src="/wp-includes/grasshopper/img/instagram.png" />
-    //     </a>
-    //     <a href="https://www.facebook.com/personalfinanceclub">
-    //         <img src="/wp-includes/grasshopper/img/facebook.png" />
-    //     </a>
-    // </li>'
+//     $newmenu =  "Jeremy" + $items;
+//     // '<li id="followlinks">
+//     //     <span>Follow us:</span>
+//     //     <a href="https://www.instagram.com/personalfinanceclub">
+//     //         <img src="/wp-includes/grasshopper/img/instagram.png" />
+//     //     </a>
+//     //     <a href="https://www.facebook.com/personalfinanceclub">
+//     //         <img src="/wp-includes/grasshopper/img/facebook.png" />
+//     //     </a>
+//     // </li>'
 
 
-    return $newmenu;
-}
+//     return $newmenu;
+// }
 
 ?>
