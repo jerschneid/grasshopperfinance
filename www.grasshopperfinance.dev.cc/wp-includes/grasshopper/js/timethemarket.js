@@ -345,12 +345,12 @@ class TimeTheMarketGame extends React.Component
 
     updateScore()
     {
-            this.setState({
-                myValue: myTotalValue,
-                vfinxValue: vfinxTotalValue,
-                myPercentGain: 100 * myPercentGain,
-                vfinxPercentGain: 100 * vfinxPercentGain
-            });
+        this.setState({
+            myValue: myTotalValue,
+            vfinxValue: vfinxTotalValue,
+            myPercentGain: 100 * myPercentGain,
+            vfinxPercentGain: 100 * vfinxPercentGain
+        });
     }
 
     updateHeadline()

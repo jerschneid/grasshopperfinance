@@ -52,4 +52,11 @@ add_action('wp_enqueue_scripts', 'my_theme_enqueue_styles' );
 add_action('wp_enqueue_scripts', 'load_scripts');
 
 
+add_filter( 'wp_nav_menu_items','add_search_box', 10, 2 );
+function add_search_box( $items, $args ) 
+{
+    $items .= '<li>JEREMY</li>';
+    return $items;
+}
+
 ?>
