@@ -56,7 +56,7 @@ add_filter( 'wp_nav_menu_items','add_search_box', 10, 2 );
 function add_search_box( $items, $args ) 
 {
  
-    $items =  
+    $newmenu =  
     '<li id="followlinks">
         <span>Follow us:</span>
         <a href="https://www.instagram.com/personalfinanceclub">
@@ -68,7 +68,7 @@ function add_search_box( $items, $args )
     </li>'
         + $items;
 
-    return $items;
+    return $newmenu;
 }
 
 ?>
