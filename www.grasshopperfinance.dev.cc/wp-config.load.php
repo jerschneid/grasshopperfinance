@@ -87,7 +87,7 @@ function s24_load_environment_config() {
         }
         foreach ($domain as $domain_name) {
             $wildcard = (strpos($domain_name, '*') !== false) ? true : false;
-            error_log( "Domain Hostmane: $domain_name $hostname" );
+            //error_log( "Domain Hostname: $domain_name $hostname" );
 
             if ($wildcard) {
                 $match = '/' . str_replace('*', '([^.]+)', preg_quote($domain_name, '/')) . '/';
@@ -124,7 +124,8 @@ function s24_load_environment_config() {
      * Define WordPress Site URLs
      */
 
-    error_log("WP_ENV_DOMAIN: " . getenv('WP_ENV_DOMAIN'));
+    //error_log("WP_ENV_DOMAIN: " . getenv('WP_ENV_DOMAIN'));
+    error_log("MEMORY USAGE: " . memory_get_usage());
 
     if (!defined('WP_ENV_DOMAIN')) {
         throw new Exception("Cannot determine current environment domain, make sure this is set in wp-config.env.php");
