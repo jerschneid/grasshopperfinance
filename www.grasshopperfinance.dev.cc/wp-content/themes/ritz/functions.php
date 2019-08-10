@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Ritz functions and definitions.
  *
@@ -102,8 +101,8 @@ function ritz_widgets_init() {
 		'description'   => esc_html__( 'Add widgets here.', 'ritz' ),
 		'before_widget' => '<section id="%1$s" class="widget %2$s">',
 		'after_widget'  => '</section>',
-		'before_title'  => '<h2 class="widget-title">',
-		'after_title'   => '</h2>',
+		'before_title'  => '<h3 class="widget-title">',
+		'after_title'   => '</h3>',
 	) );
 
 	register_sidebar( array(
@@ -112,8 +111,8 @@ function ritz_widgets_init() {
 		'description'   => esc_html__( 'Add Ritz: Newsletter widgets here.', 'ritz' ),
 		'before_widget' => '<section id="%1$s" class="widget %2$s">',
 		'after_widget'  => '</section>',
-		'before_title'  => '<h2 class="widget-title">',
-		'after_title'   => '</h2>',
+		'before_title'  => '<h3 class="widget-title">',
+		'after_title'   => '</h3>',
 	) );
 
 	register_sidebar( array(
@@ -122,8 +121,8 @@ function ritz_widgets_init() {
 		'description'   => esc_html__( 'Add widgets here.', 'ritz' ),
 		'before_widget' => '<section id="%1$s" class="widget %2$s">',
 		'after_widget'  => '</section>',
-		'before_title'  => '<h2 class="widget-title">',
-		'after_title'   => '</h2>',
+		'before_title'  => '<h4 class="widget-title">',
+		'after_title'   => '</h4>',
 	) );
 
 	register_sidebar( array(
@@ -132,8 +131,8 @@ function ritz_widgets_init() {
 		'description'   => esc_html__( 'Add widgets here.', 'ritz' ),
 		'before_widget' => '<section id="%1$s" class="widget %2$s">',
 		'after_widget'  => '</section>',
-		'before_title'  => '<h2 class="widget-title">',
-		'after_title'   => '</h2>',
+		'before_title'  => '<h4 class="widget-title">',
+		'after_title'   => '</h4>',
 	) );
 
 	register_sidebar( array(
@@ -142,8 +141,8 @@ function ritz_widgets_init() {
 		'description'   => esc_html__( 'Add widgets here.', 'ritz' ),
 		'before_widget' => '<section id="%1$s" class="widget %2$s">',
 		'after_widget'  => '</section>',
-		'before_title'  => '<h2 class="widget-title">',
-		'after_title'   => '</h2>',
+		'before_title'  => '<h4 class="widget-title">',
+		'after_title'   => '</h4>',
 	) );
 
 }
@@ -208,3 +207,6 @@ add_action( 'wp_enqueue_scripts', 'ritz_scripts' );
  * Implement the main files.
  */
 require get_template_directory() . '/inc/main.php';
+
+/* Turn on wide images */
+add_theme_support( 'align-wide' );

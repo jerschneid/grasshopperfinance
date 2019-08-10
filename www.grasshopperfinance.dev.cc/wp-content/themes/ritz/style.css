@@ -1,10 +1,10 @@
 /*
 Theme Name: Ritz
-Theme URI: https://www.preciousthemes.com/downloads/ritz/
-Author: Precious Themes
-Author URI: https://www.preciousthemes.com
+Theme URI: https://www.prodesigns.com/wordpress-themes/downloads/ritz/
+Author: ProDesigns
+Author URI: https://www.prodesigns.com/
 Description: Ritz is a feature-rich, well-designed blog theme for WordPress. It is minimalist theme that allows your reader to focus on your content, build especially for bloggers who love to share their stuff, whether it’s about life, fashion, travel, beauty or just a simple personal blog. Not only its modern design is pleasing to the eyes, it packs in robust yet easy-to-use backend system all managed through WordPress Live Customizer and coded with site performance in mind.
-Version: 1.0.3
+Version: 1.1.2
 License: GNU General Public License v2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Text Domain: ritz
@@ -582,13 +582,17 @@ a:active {
 	float: left;
 	margin-right: 1.5em;
 }
-
+.wp-block-image.is-resized.alignleft{
+    margin-right: 1.5em;
+}
 .alignright {
 	display: inline;
 	float: right;
 	margin-left: 1.5em;
 }
-
+.wp-block-image.is-resized.alignright{
+    margin-left: 1.5em;
+}
 .aligncenter {
 	clear: both;
 	display: block;
@@ -1036,6 +1040,8 @@ header#masthead {
     letter-spacing: 3px;
     margin-bottom: 0px;
     margin-top: 0px;
+    font-weight: 400;
+    line-height: 1.9;
 }
 
 .inner-wrapper {
@@ -1564,6 +1570,24 @@ blockquote p {
 	text-decoration: none;
 }
 
+#comments .comment-form-cookies-consent {
+	width: 100%;
+	float: left;
+	margin-top: 0px;
+}
+
+#comments .comment-form-cookies-consent input[type="checkbox"] {
+	margin-right: 10px;
+    margin-top: 7px;
+    float: left;
+    width: auto;
+}
+
+#comments .comment-form-cookies-consent label {
+	display: inline-block;
+	width: auto;
+}
+
 /* Footer starts */
 .site-footer {
 	background:#161616;
@@ -1728,69 +1752,261 @@ blockquote p {
 	color:#ccc;
 }
 
-.social-menu-wrap .menu a[href*="facebook.com"]:hover:before{
-	color:#5a7ec8;
+.social-menu-wrap .menu a[href*="facebook.com"]::before {
+    content: "\f09a";
 }
 
-.social-menu-wrap .menu a[href*="facebook.com"]:before{
-	content: "\f09a";	
-	
+.social-menu-wrap .menu a[href*="twitter.com"]::before {
+    content: "\f099";
 }
 
-.social-menu-wrap .menu a[href*="twitter.com"]:hover:before{
-	color:#00aced;
+.social-menu-wrap .menu a[href*="linkedin.com"]::before {
+    content: "\f0e1";
 }
 
-.social-menu-wrap .menu a[href*="twitter.com"]:before{
-	content: "\f099";
+.social-menu-wrap .menu a[href*="plus.google.com"]::before {
+    content: "\f0d5";
 }
 
-.social-menu-wrap .menu a[href*="instagram.com"]:hover:before{
-	color:#8245BC;
+.social-menu-wrap .menu a[href*="youtube.com"]::before {
+    content: "\f167";
 }
 
-.social-menu-wrap .menu a[href*="instagram.com"]:before{
-	content: "\f16d";
+.social-menu-wrap .menu a[href*="dribbble.com"]::before {
+    content: "\f17d";
 }
 
-.social-menu-wrap .menu a[href*="pinterest.com"]:hover:before{
-	color:#CB2125;
+.social-menu-wrap .menu a[href*="pinterest.com"]::before {
+    content: "\f0d2";
 }
 
-.social-menu-wrap .menu a[href*="pinterest.com"]:before{
-	content: "\f231";
+.social-menu-wrap .menu a[href*="bitbucket.org"]::before {
+    content: "\f171";
 }
 
-.social-menu-wrap .menu a[href*="plus.google.com"]:hover:before{
-	color:#E12F2F;
+.social-menu-wrap .menu a[href*="github.com"]::before {
+    content: "\f113";
 }
 
-.social-menu-wrap .menu a[href*="plus.google.com"]:before{
-	content: "\f0d5";
+.social-menu-wrap .menu a[href*="codepen.io"]::before {
+    content: "\f1cb";
 }
 
-.social-menu-wrap .menu a[href*="youtube.com"]:hover:before{
-	color:#bb0000;
+.social-menu-wrap .menu a[href*="flickr.com"]::before {
+    content: "\f16e";
 }
 
-.social-menu-wrap .menu a[href*="youtube.com"]:before{
-	content: "\f04b";
+.social-menu-wrap .menu a[href$="/feed/"]::before {
+    content: "\f09e";
+}
+
+.social-menu-wrap .menu a[href*="foursquare.com"]::before {
+    content: "\f180";
+}
+
+.social-menu-wrap .menu a[href*="instagram.com"]::before {
+    content: "\f16d";
+}
+
+.social-menu-wrap .menu a[href*="tumblr.com"]::before {
+    content: "\f173";
+}
+
+.social-menu-wrap .menu a[href*="reddit.com"]::before {
+    content: "\f1a1";
+}
+
+.social-menu-wrap .menu a[href*="vimeo.com"]::before {
+    content: "\f194";
+}
+
+.social-menu-wrap .menu a[href*="digg.com"]::before {
+    content: "\f1a6";
+}
+
+.social-menu-wrap .menu a[href*="twitch.tv"]::before {
+    content: "\f1e8";
+}
+
+.social-menu-wrap .menu a[href*="stumbleupon.com"]::before {
+    content: "\f1a4";
+}
+
+.social-menu-wrap .menu a[href*="delicious.com"]::before {
+    content: "\f1a5";
+}
+
+.social-menu-wrap .menu a[href*="mailto:"]::before {
+    content: "\f0e0";
+}
+.social-menu-wrap .menu a[href*="soundcloud.com"]::before {
+    content: "\f1be";
+}
+.social-menu-wrap .menu a[href*="wordpress.org"]::before {
+    content: "\f19a";
+}
+.social-menu-wrap .menu a[href*="wordpress.com"]::before {
+    content: "\f19a";
+}
+
+.social-menu-wrap .menu a[href*="jsfiddle.net"]::before {
+    content: "\f1cc";
+}
+
+.social-menu-wrap .menu a[href*="tripadvisor.com"]::before {
+    content: "\f262";
+}
+
+.social-menu-wrap .menu a[href*="foursquare.com"]::before {
+    content: "\f180";
+}
+
+.social-menu-wrap .menu a[href*="angel.co"]::before {
+    content: "\f209";
+}
+
+.social-menu-wrap .menu a[href*="vk.com"]::before{
+	content: "\f189";
+}
+
+.social-menu-wrap .menu a[href*="slack.com"]::before {
+    content: "\f198";
+}
+
+/*social links hover effect */
+
+.social-menu-wrap .menu a[href*="facebook.com"]:hover:before {
+    color: #3b5998;
+}
+
+.social-menu-wrap .menu a[href*="twitter.com"]:hover:before {
+    color: #00aced;
+}
+
+.social-menu-wrap .menu a[href*="plus.google.com"]:hover:before {
+    color: #dd4b39;
+}
+
+.social-menu-wrap .menu a[href*="/feed/"]:hover:before  {
+    color: #dc622c;
+}
+
+.social-menu-wrap .menu a[href*="wordpress.org"]:hover:before,
+.social-menu-wrap .menu a[href*="wordpress.com"]:hover:before {
+    color: #45bbe6;
+}
+
+.social-menu-wrap .menu a[href*="github.com"]:hover:before {
+    color: #4183c4;
 }
 
 .social-menu-wrap .menu a[href*="linkedin.com"]:hover:before {
-	color:#007bb6;
+    color: #007bb6;
 }
 
-.social-menu-wrap .menu a[href*="linkedin.com"]:before {
-	content:"\f0e1";
+.social-menu-wrap .menu a[href*="pinterest.com"]:hover:before {
+    color: #cb2027;
+}
+
+.social-menu-wrap .menu a[href*="flickr.com"]:hover:before {
+    color: #ff0084;
 }
 
 .social-menu-wrap .menu a[href*="vimeo.com"]:hover:before {
-	color:#1AB7EA;
+    color: #aad450;
 }
 
-.social-menu-wrap .menu a[href*="vimeo.com"]:before {
-	content:"\f27d";
+.social-menu-wrap .menu a[href*="youtube.com"]:hover:before {
+    color: #bb0000;
+}
+
+.social-menu-wrap .menu a[href*="instagram.com"]:hover:before {
+    color: #517fa4;
+}
+
+.social-menu-wrap .menu a[href*="dribbble.com"]:hover:before {
+    color: #ea4c89;
+}
+
+.social-menu-wrap .menu a[href*="skype.com"]:hover:before {
+    color: #12a5f4;
+}
+
+.social-menu-wrap .menu a[href*="digg.com"]:hover:before {
+    color: #333;
+}
+
+.social-menu-wrap .menu a[href*="codepen.io"]:hover:before {
+    color: #000;
+}
+
+.social-menu-wrap .menu a[href*="reddit.com"]:hover:before {
+    color: #ff4500;
+}
+
+.social-menu-wrap .menu a[href*="mailto:"]:hover:before {
+    color: #1d62f0;
+}
+
+.social-menu-wrap .menu a[href*="foursquare.com"]:hover:before {
+    color: #f94877;
+}
+
+.social-menu-wrap .menu a[href*="stumbleupon.com"]:hover:before {
+    color: #eb4924;
+}
+
+.social-menu-wrap .menu a[href*="twitch.tv"]:hover:before {
+    color: #6441a5;
+}
+
+.social-menu-wrap .menu a[href*="tumblr.com"]:hover:before {
+    color: #32506d;
+}
+
+.social-menu-wrap .menu a[href*="foursquare.com"]:hover:before {
+    color: #f94877;
+    border:1px solid #f94877;
+}
+
+.social-menu-wrap .menu a[href*="stumbleupon.com"]:hover:before {
+    color: #eb4924;
+}
+
+.social-menu-wrap .menu a[href*="twitch.tv"]:hover:before {
+    color: #6441a5;
+}
+
+.social-menu-wrap .menu a[href*="tumblr.com"]:hover:before {
+    color: #32506d;
+}
+
+.social-menu-wrap .menu a[href*="soundcloud.com"]:hover:before {
+    color: #ff5500;
+}
+
+.social-menu-wrap .menu a[href*="vk.com"]:hover:before {
+    color:#4a76a8;
+}
+
+.social-menu-wrap .menu a[href*="jsfiddle.net"]:hover:before {
+    color:#4679bd;
+}
+
+.social-menu-wrap .menu a[href*="tripadvisor.com"]:hover:before {
+    color:#86c171;
+}
+
+.social-menu-wrap .menu a[href*="foursquare.com"]:hover:before {
+    color:#2d5be3;
+}
+
+.social-menu-wrap .menu a[href*="angel.co"]:hover:before {
+    color:#000;
+}
+
+.social-menu-wrap .menu a[href*="slack.com"]:hover:before {
+    color:#56b68b;
 }
 
 /* Footer social links  ends */
@@ -1915,8 +2131,8 @@ blockquote p {
 	margin-top: 0px;
 }
 
-#primary ol,
-#primary ul {
+#primary ol/*,
+#primary ul*/ {
 	margin-left: 0px;
 	padding-left:20px;
 }
@@ -2381,7 +2597,7 @@ blockquote p {
 	background: #0f6ac4;
 }
 
-
+.footer-social-links.social-menu-wrap li a{border-radius: 50%;}
 /*Scrollup Style*/
 
 .scrollup {
@@ -2395,9 +2611,11 @@ blockquote p {
     padding: 1px 10px 4px;
     position: fixed;
     right: 32px;
+    border-radius: 5px;
     text-align: center;
     z-index: 99999;
     transition: all 0.5s ease-in-out 0s;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.16);
 }
 
 .scrollup i {
@@ -2529,6 +2747,11 @@ blockquote p {
 		width: 85%;
 	}
 
+	#comments .comment-form-cookies-consent label {
+		display: block;
+	    width: auto;
+	    float: none;
+	}
 
 }
 
@@ -2664,3 +2887,130 @@ blockquote p {
  }
 
 /* Media css ends */
+
+
+/* =========================================== */
+.site-content {
+    overflow: hidden;
+}
+.wp-block-pullquote{
+    padding-left: 1em; 
+    padding-right: 1em; 
+}
+
+.entry-content .wp-block-archives, 
+.entry-content .wp-block-categories, 
+.entry-content .wp-block-latest-posts,
+.entry-content .wp-block-gallery,
+#primary ul.wp-block-archives,
+#primary ul.wp-block-categories,
+#primary ul.wp-block-latest-posts{
+
+    list-style: none; 
+    margin-left: 0; 
+    padding-left: 0; 
+}
+
+
+/* Separator
+--------------------------------------------- */
+.wp-block-separator:not(.is-style-dots),
+hr:not(.is-style-dots) {
+    background-color: #cccccc;
+    border: 0;
+    height: 1px;
+}
+
+.wp-block-separator:not(.is-style-wide):not(.is-style-dots),
+hr:not(.is-style-wide):not(.is-style-dots) {
+    width: 100%;
+    height: 4px;
+    background: transparent;
+    margin-top: 20px;
+}
+
+.wp-block-separator:not(.is-style-wide):not(.is-style-dots)::before,
+hr:not(.is-style-wide):not(.is-style-dots)::before {
+    content: '';
+    display: block;
+    height: 4px;
+    width: 40px;
+    background: #cccccc;
+}
+
+.wp-block-separator.is-style-dots:before,
+hr.is-style-dots:before {
+    color: #191e23;
+    font-size: 22px;
+    padding-left: 12px;
+}
+
+/* == Align Center == */
+.entry-content > *.aligncenter,
+.entry-summary > *.aligncenter {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/*@media only screen and (min-width: 768px) {
+  .entry-content > *.aligncenter,
+  .entry-summary > *.aligncenter {
+    max-width: calc(8 * (100vw / 12) - 28px);
+  }
+}
+
+@media only screen and (min-width: 1168px) {
+  .entry-content > *.aligncenter,
+  .entry-summary > *.aligncenter {
+    max-width: calc(6 * (100vw / 12) - 28px);
+  }
+}*/
+
+@media only screen and (min-width: 768px) {
+  .entry-content > *.aligncenter,
+  .entry-summary > *.aligncenter {
+     margin-left: 0; 
+     margin-right: 0; 
+  }
+}
+/* == */
+
+
+
+
+/* == Align wide == */
+.entry-content > *.alignwide,
+.entry-summary > *.alignwide {
+  margin-left: auto;
+  margin-right: auto;
+  clear: both;
+}
+
+@media only screen and (min-width: 768px) {
+  	.entry-content > *.alignwide,
+  	.entry-summary > *.alignwide {
+    width: 100%;
+    max-width: 100%;
+  }
+}
+/* == */
+
+/* == Align Full == */
+@media (min-width: 768px) {
+    .entry-content>*.alignfull, #primary ul.wp-block-gallery.alignful {
+        margin-top: calc( 2 * 20px);
+        margin-bottom: calc( 2 * 20px);
+        max-width: 1000%
+    }
+    .entry-content>*.alignwide img,
+    .entry-content>*.alignfull img {
+        display: block;
+        margin: 0 auto
+    }
+    .entry-content>*.alignfull, #primary ul.wp-block-gallery.alignful {
+        margin-left: calc(50% - 50vw);
+        margin-right: calc(50% - 50vw);
+        width: auto
+    }
+}
+/* == */

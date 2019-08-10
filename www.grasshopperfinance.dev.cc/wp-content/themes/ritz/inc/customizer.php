@@ -49,7 +49,7 @@ function ritz_customize_register( $wp_customize ) {
 			array(
 				'title'    => esc_html__( 'Ritz Pro', 'ritz' ),
 				'pro_text' => esc_html__( 'Upgrade to PRO', 'ritz' ),
-				'pro_url'  => 'https://www.preciousthemes.com/downloads/ritz-pro/',
+				'pro_url'  => 'https://www.prodesigns.com/wordpress-themes/downloads/ritz-pro/',
 				'priority' => 1,
 			)
 		)

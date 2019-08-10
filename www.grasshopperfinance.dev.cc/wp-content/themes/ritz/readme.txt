@@ -1,9 +1,9 @@
 === Ritz ===
 
-Contributors: preciousthemes
+Contributors: ProDesigns
 Requires at least: 4.5
-Tested up to: 4.9.1
-Stable tag: 1.0.3
+Tested up to: 5.0.1
+Stable tag: 1.1.2
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -19,7 +19,7 @@ Ritz is a feature-rich, well-designed blog theme for WordPress. It is minimalist
 
 == License ==
 
-Ritz WordPress Theme, Copyright (C) 2017, Precious Themes
+Ritz WordPress Theme, Copyright (C) ProDesigns
 Ritz is distributed under the terms of the GNU GPL
 
 == Frequently Asked Questions ==
@@ -29,6 +29,28 @@ Ritz is distributed under the terms of the GNU GPL
 Ritz includes support for Infinite Scroll in Jetpack and other standard plugins.
 
 == Changelog ==
+= 1.1.2 =
+* Recommended Hubspot All-In-One Marketing plugin for Forms, Popups, Live Chat.
+
+= 1.1.1 =
+* SEO optimisation related to header tags
+
+= 1.1.0 =
+* Made the theme compatible to Gutenberg (â€œwideâ€? and â€œfullâ€? options not added)
+
+= 1.0.6 =
+* Border radius added to scroll to top element
+
+= 1.0.5 =
+* Author name updated in the comments block
+* Author URI updated in the comments block
+* Theme URI updated in the comments block
+* Author name updated in the footer theme credit
+* Author URI updated in the footer theme credit
+
+= 1.0.4 =
+* CSS added for checkbox of the comment form
+* More social icons added
 
 = 1.0.3 =
 * Fixed issue of sub-menu
@@ -69,4 +91,4 @@ https://www.pexels.com/photo/grapes-on-vineyard-during-daytime-39351/
 https://www.pexels.com/photo/adult-art-artistic-attractive-235462/
 
 - envelope.png 
-(C) 2017 Precious Themes (https://www.preciousthemes.com), GPLv2 or later](https://www.gnu.org/licenses/gpl-2.0.html)
+(C) ProDesigns (https://www.prodesigns.com/), GPLv2 or later](https://www.gnu.org/licenses/gpl-2.0.html)

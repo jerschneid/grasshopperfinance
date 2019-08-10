@@ -1,14 +1,31 @@
 ( function( $ ) {
-	var cookieValue = document.cookie.replace( /(?:(?:^|.*;\s*)eucookielaw\s*\=\s*([^;]*).*$)|^.*$/, '$1' ),
+	var cookieValue = document.cookie.replace(
+			/(?:(?:^|.*;\s*)eucookielaw\s*\=\s*([^;]*).*$)|^.*$/,
+			'$1'
+		),
 		overlay = $( '#eu-cookie-law' ),
 		initialScrollPosition,
 		scrollFunction;
 
-	if ( '' !== cookieValue ) {
+	if ( overlay.hasClass( 'top' ) ) {
+		$( '.widget_eu_cookie_law_widget' ).addClass( 'top' );
+	}
+
+	if ( overlay.hasClass( 'ads-active' ) ) {
+		var adsCookieValue = document.cookie.replace(
+			/(?:(?:^|.*;\s*)personalized-ads-consent\s*\=\s*([^;]*).*$)|^.*$/,
+			'$1'
+		);
+		if ( '' !== cookieValue && '' !== adsCookieValue ) {
+			overlay.remove();
+		}
+	} else if ( '' !== cookieValue ) {
 		overlay.remove();
 	}
 
-	$( '.widget_eu_cookie_law_widget' ).appendTo( 'body' ).fadeIn();
+	$( '.widget_eu_cookie_law_widget' )
+		.appendTo( 'body' )
+		.fadeIn();
 
 	overlay.find( 'form' ).on( 'submit', accept );
 
@@ -40,12 +57,24 @@
 		}
 
 		var expireTime = new Date();
-		expireTime.setTime( expireTime.getTime() + 2592000000 ); // 30 days
+		expireTime.setTime(
+			expireTime.getTime() + overlay.data( 'consent-expiration' ) * 24 * 60 * 60 * 1000
+		);
 
-		document.cookie = 'eucookielaw=' + expireTime.getTime() + ';path=/;expires=' + expireTime.toGMTString();
+		document.cookie =
+			'eucookielaw=' + expireTime.getTime() + ';path=/;expires=' + expireTime.toGMTString();
+		if ( overlay.hasClass( 'ads-active' ) && overlay.hasClass( 'hide-on-button' ) ) {
+			document.cookie =
+				'personalized-ads-consent=' +
+				expireTime.getTime() +
+				';path=/;expires=' +
+				expireTime.toGMTString();
+		}
 
 		overlay.fadeOut( 400, function() {
 			overlay.remove();
+			var widgetSection = document.querySelector( '.widget.widget_eu_cookie_law_widget' );
+			widgetSection.parentNode.removeChild( widgetSection );
 		} );
 	}
 } )( jQuery );

@@ -249,3 +249,20 @@ if( ! function_exists( 'ritz_archive_prefix_change' ) ):
 endif;
 
 add_filter( 'get_the_archive_title', 'ritz_archive_prefix_change');
+
+//TGM Plugin activation.
+require_once trailingslashit( get_template_directory() ) . '/inc/tgm/class-tgm-plugin-activation.php';
+function ritz_register_required_plugins() {
+	
+	$plugins = array(
+		array(
+            		'name'      => esc_html__( 'HubSpot All-In-One Marketing - Forms, Popups, Live Chat', 'ritz' ),
+			'slug'      => 'leadin',
+			'required'  => false,
+		),
+	);
+
+	tgmpa( $plugins );
+}
+
+add_action( 'tgmpa_register', 'ritz_register_required_plugins' );

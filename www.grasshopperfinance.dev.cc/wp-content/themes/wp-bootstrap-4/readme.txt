@@ -3,8 +3,8 @@ Contributors: TwoPoint
 Tags: custom-background, custom-logo, custom-menu, featured-images, threaded-comments, translation-ready, two-columns, left-sidebar, right-sidebar, custom-colors, footer-widgets, full-width-template, rtl-language-support, sticky-post, theme-options, blog
 
 Requires at least: 4.0
-Tested up to: 4.9.6
-Stable tag: 1.0.8
+Tested up to: 4.9.8
+Stable tag: 1.0.9
 License: GNU General Public License v3 or later
 License URI: https://www.gnu.org/licenses/gpl.html
 

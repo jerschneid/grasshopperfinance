@@ -58,11 +58,6 @@ class Jetpack_Testimonial {
 			return;
 		}
 
-		// Enable Omnisearch for CPT.
-		if ( class_exists( 'Jetpack_Omnisearch_Posts' ) ) {
-			new Jetpack_Omnisearch_Posts( self::CUSTOM_POST_TYPE );
-		}
-
 		// CPT magic
 		$this->register_post_types();
 		add_action( sprintf( 'add_option_%s', self::OPTION_NAME ),               array( $this, 'flush_rules_on_enable' ), 10 );
@@ -319,6 +314,7 @@ class Jetpack_Testimonial {
 				'thumbnail',
 				'page-attributes',
 				'revisions',
+				'excerpt',
 			),
 			'rewrite' => array(
 				'slug'       => 'testimonial',
@@ -368,10 +364,9 @@ class Jetpack_Testimonial {
 	 * Change ‘Enter Title Here’ text for the Testimonial.
 	 */
 	function change_default_title( $title ) {
-		$screen = get_current_screen();
-
-		if ( self::CUSTOM_POST_TYPE == $screen->post_type )
+		if ( self::CUSTOM_POST_TYPE == get_post_type() ) {
 			$title = esc_html__( "Enter the customer's name here", 'jetpack' );
+		}
 
 		return $title;
 	}
@@ -536,7 +531,7 @@ class Jetpack_Testimonial {
 			'columns'         => 1,
 			'showposts'       => -1,
 			'order'           => 'asc',
-			'orderby'         => 'date',
+			'orderby'         => 'menu_order,date',
 		), $atts, 'testimonial' );
 
 		// A little sanitization
@@ -563,7 +558,7 @@ class Jetpack_Testimonial {
 		if ( $atts['orderby'] ) {
 			$atts['orderby'] = urldecode( $atts['orderby'] );
 			$atts['orderby'] = strtolower( $atts['orderby'] );
-			$allowed_keys = array('author', 'date', 'title', 'rand');
+			$allowed_keys = array( 'author', 'date', 'title', 'menu_order', 'rand' );
 
 			$parsed = array();
 			foreach ( explode( ',', $atts['orderby'] ) as $testimonial_index_number => $orderby ) {

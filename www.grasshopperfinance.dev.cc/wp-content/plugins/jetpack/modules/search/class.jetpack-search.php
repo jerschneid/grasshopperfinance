@@ -7,6 +7,8 @@
  * @since      5.0.0
  */
 
+use Automattic\Jetpack\Connection\Client;
+
 /**
  * The main class for the Jetpack Search module.
  *
@@ -150,7 +152,7 @@ class Jetpack_Search {
 	 * @since 5.0.0
 	 */
 	public function setup() {
-		if ( ! Jetpack::is_active() || ! Jetpack::active_plan_supports( 'search' ) ) {
+		if ( ! Jetpack::is_active() || ! Jetpack_Plan::supports( 'search' ) ) {
 			return;
 		}
 
@@ -160,8 +162,9 @@ class Jetpack_Search {
 			return;
 		}
 
-		require_once( dirname( __FILE__ ) . '/class.jetpack-search-helpers.php' );
-		require_once( dirname( __FILE__ ) . '/class.jetpack-search-template-tags.php' );
+		require_once dirname( __FILE__ ) . '/class.jetpack-search-helpers.php';
+		require_once dirname( __FILE__ ) . '/class.jetpack-search-template-tags.php';
+		require_once JETPACK__PLUGIN_DIR . 'modules/widgets/search.php';
 
 		$this->init_hooks();
 	}
@@ -172,8 +175,6 @@ class Jetpack_Search {
 	 * @since 5.0.0
 	 */
 	public function init_hooks() {
-		add_action( 'widgets_init', array( $this, 'action__widgets_init' ) );
-
 		if ( ! is_admin() ) {
 			add_filter( 'posts_pre_query', array( $this, 'filter__posts_pre_query' ), 10, 2 );
 
@@ -185,9 +186,38 @@ class Jetpack_Search {
 			add_action( 'init', array( $this, 'set_filters_from_widgets' ) );
 
 			add_action( 'pre_get_posts', array( $this, 'maybe_add_post_type_as_var' ) );
+			add_action( 'wp_enqueue_scripts', array( $this, 'load_assets' ) );
 		} else {
 			add_action( 'update_option', array( $this, 'track_widget_updates' ), 10, 3 );
 		}
+
+		add_action( 'jetpack_deactivate_module_search', array( $this, 'move_search_widgets_to_inactive' ) );
+	}
+
+	/**
+	 * Loads assets for Jetpack Search Prototype featuring Search As You Type experience.
+	 */
+	public function load_assets() {
+		if ( defined( 'JETPACK_SEARCH_PROTOTYPE' ) ) {
+			$script_relative_path = '_inc/search/dist/jp-search.bundle.js';
+			if ( file_exists( JETPACK__PLUGIN_DIR . $script_relative_path ) ) {
+				$script_version = self::get_asset_version( $script_relative_path );
+				$script_path    = plugins_url( $script_relative_path, JETPACK__PLUGIN_FILE );
+				wp_enqueue_script( 'jetpack-search', $script_path, array(), $script_version, false );
+			}
+		}
+	}
+
+	/**
+	 * Get the version number to use when loading the file. Allows us to bypass cache when developing.
+	 *
+	 * @param string $file Path of the file we are looking for.
+	 * @return string $script_version Version number.
+	 */
+	public static function get_asset_version( $file ) {
+		return Jetpack::is_development_version() && file_exists( JETPACK__PLUGIN_DIR . $file )
+			? filemtime( $file )
+			: JETPACK__VERSION;
 	}
 
 	/**
@@ -242,6 +272,13 @@ class Jetpack_Search {
 				intval( $this->last_query_info['elapsed_time'] ),
 				esc_html( $this->last_query_info['es_time'] )
 			);
+
+			if ( isset( $_GET['searchdebug'] ) ) {
+				printf(
+					'<!-- Query response data: %s -->',
+					esc_html( print_r( $this->last_query_info, 1 ) )
+				);
+			}
 		}
 	}
 
@@ -272,22 +309,13 @@ class Jetpack_Search {
 	 * developers to disable filters supplied by the search widget. Useful if filters are
 	 * being defined at the code level.
 	 *
-	 * @since 5.7.0
+	 * @since      5.7.0
+	 * @deprecated 5.8.0 Use Jetpack_Search_Helpers::are_filters_by_widget_disabled() directly.
 	 *
 	 * @return bool
 	 */
-	function are_filters_by_widget_disabled() {
-		/**
-		 * Allows developers to disable filters being set by widget, in favor of manually
-		 * setting filters via `Jetpack_Search::set_filters()`.
-		 *
-		 * @module search
-		 *
-		 * @since  5.7.0
-		 *
-		 * @param bool false
-		 */
-		return apply_filters( 'jetpack_search_disable_widget_filters', false );
+	public function are_filters_by_widget_disabled() {
+		return Jetpack_Search_Helpers::are_filters_by_widget_disabled();
 	}
 
 	/**
@@ -296,8 +324,8 @@ class Jetpack_Search {
 	 *
 	 * @since 5.7.0
 	 */
-	function set_filters_from_widgets() {
-		if ( $this->are_filters_by_widget_disabled() ) {
+	public function set_filters_from_widgets() {
+		if ( Jetpack_Search_Helpers::are_filters_by_widget_disabled() ) {
 			return;
 		}
 
@@ -315,8 +343,8 @@ class Jetpack_Search {
 	 *
 	 * @param WP_Query $query A WP_Query instance.
 	 */
-	function maybe_add_post_type_as_var( WP_Query $query ) {
-		if ( $query->is_main_query() && $query->is_search && ! empty( $_GET['post_type'] ) ) {
+	public function maybe_add_post_type_as_var( WP_Query $query ) {
+		if ( $this->should_handle_query( $query ) && ! empty( $_GET['post_type'] ) ) {
 			$post_types = ( is_string( $_GET['post_type'] ) && false !== strpos( $_GET['post_type'], ',' ) )
 				? $post_type = explode( ',', $_GET['post_type'] )
 				: (array) $_GET['post_type'];
@@ -340,16 +368,16 @@ class Jetpack_Search {
 
 		$do_authenticated_request = false;
 
-		if ( class_exists( 'Jetpack_Client' ) &&
-		     isset( $es_args['authenticated_request'] ) &&
-		     true === $es_args['authenticated_request'] ) {
+		if ( class_exists( 'Client' ) &&
+			isset( $es_args['authenticated_request'] ) &&
+			true === $es_args['authenticated_request'] ) {
 			$do_authenticated_request = true;
 		}
 
 		unset( $es_args['authenticated_request'] );
 
 		$request_args = array(
-			'headers'    => array(
+			'headers' => array(
 				'Content-Type' => 'application/json',
 			),
 			'timeout'    => 10,
@@ -363,7 +391,7 @@ class Jetpack_Search {
 		if ( $do_authenticated_request ) {
 			$request_args['method'] = 'POST';
 
-			$request = Jetpack_Client::wpcom_json_api_request_as_blog( $endpoint, Jetpack_Client::WPCOM_JSON_API_VERSION, $request_args, $request_body );
+			$request = Client::wpcom_json_api_request_as_blog( $endpoint, Client::WPCOM_JSON_API_VERSION, $request_args, $request_body );
 		} else {
 			$request_args = array_merge( $request_args, array(
 				'body' => $request_body,
@@ -379,7 +407,8 @@ class Jetpack_Search {
 		}
 
 		$response_code = wp_remote_retrieve_response_code( $request );
-		$response      = json_decode( wp_remote_retrieve_body( $request ), true );
+
+		$response = json_decode( wp_remote_retrieve_body( $request ), true );
 
 		$took = is_array( $response ) && ! empty( $response['took'] )
 			? $response['took']
@@ -449,17 +478,7 @@ class Jetpack_Search {
 	 * @return array Array of matching posts.
 	 */
 	public function filter__posts_pre_query( $posts, $query ) {
-		/**
-		 * Determine whether a given WP_Query should be handled by ElasticSearch.
-		 *
-		 * @module search
-		 *
-		 * @since  5.6.0
-		 *
-		 * @param bool     $should_handle Should be handled by Jetpack Search.
-		 * @param WP_Query $query         The WP_Query object.
-		 */
-		if ( ! apply_filters( 'jetpack_search_should_handle_query', ( $query->is_main_query() && $query->is_search() ), $query ) ) {
+		if ( ! $this->should_handle_query( $query ) ) {
 			return $posts;
 		}
 
@@ -483,19 +502,12 @@ class Jetpack_Search {
 		// Query all posts now
 		$args = array(
 			'post__in'            => $post_ids,
+			'orderby'             => 'post__in',
 			'perm'                => 'readable',
 			'post_type'           => 'any',
 			'ignore_sticky_posts' => true,
 			'suppress_filters'    => true,
 		);
-
-		if ( isset( $query->query_vars['order'] ) ) {
-			$args['order'] = $query->query_vars['order'];
-		}
-
-		if ( isset( $query->query_vars['orderby'] ) ) {
-			$args['orderby'] = $query->query_vars['orderby'];
-		}
 
 		$posts_query = new WP_Query( $args );
 
@@ -514,6 +526,10 @@ class Jetpack_Search {
 	 * @param WP_Query $query The original WP_Query to use for the parameters of our search.
 	 */
 	public function do_search( WP_Query $query ) {
+		if ( ! $this->should_handle_query( $query ) ) {
+			return;
+		}
+
 		$page = ( $query->get( 'paged' ) ) ? absint( $query->get( 'paged' ) ) : 1;
 
 		// Get maximum allowed offset and posts per page values for the API.
@@ -732,17 +748,6 @@ class Jetpack_Search {
 	}
 
 	/**
-	 * Initialize the search widget.
-	 *
-	 * @since 5.0.0
-	 */
-	public function action__widgets_init() {
-		require_once( dirname( __FILE__ ) . '/class.jetpack-search-widget.php' );
-
-		register_widget( 'Jetpack_Search_Widget' );
-	}
-
-	/**
 	 * Get the Elasticsearch result.
 	 *
 	 * @since 5.0.0
@@ -811,13 +816,14 @@ class Jetpack_Search {
 	 *
 	 * @return array Array of ES style query arguments.
 	 */
-	function convert_wp_es_to_es_args( array $args ) {
+	public function convert_wp_es_to_es_args( array $args ) {
 		jetpack_require_lib( 'jetpack-wpes-query-builder/jetpack-wpes-query-parser' );
 
 		$defaults = array(
 			'blog_id'        => get_current_blog_id(),
 			'query'          => null,    // Search phrase
-			'query_fields'   => array(), //list of fields to search
+			'query_fields'   => array(), // list of fields to search
+			'excess_boost'   => array(), // map of field to excess boost values (multiply)
 			'post_type'      => null,    // string or an array
 			'terms'          => array(), // ex: array( 'taxonomy-1' => array( 'slug' ), 'taxonomy-2' => array( 'slug-a', 'slug-b' ) )
 			'author'         => null,    // id or an array of ids
@@ -845,29 +851,37 @@ class Jetpack_Search {
 		if ( empty( $args['query_fields'] ) ) {
 			if ( defined( 'JETPACK_SEARCH_VIP_INDEX' ) && JETPACK_SEARCH_VIP_INDEX ) {
 				// VIP indices do not have per language fields
-				$match_fields        = array(
-					'title^0.1',
-					'content^0.1',
-					'excerpt^0.1',
-					'tag.name^0.1',
-					'category.name^0.1',
-					'author_login^0.1',
-					'author^0.1',
+				$match_fields = $this->_get_caret_boosted_fields(
+					array(
+						'title'         => 0.1,
+						'content'       => 0.1,
+						'excerpt'       => 0.1,
+						'tag.name'      => 0.1,
+						'category.name' => 0.1,
+						'author_login'  => 0.1,
+						'author'        => 0.1,
+					)
 				);
-				$boost_fields        = array(
-					'title^2',
-					'tag.name',
-					'category.name',
-					'author_login',
-					'author',
+
+				$boost_fields = $this->_get_caret_boosted_fields(
+					$this->_apply_boosts_multiplier( array(
+						'title'         => 2,
+						'tag.name'      => 1,
+						'category.name' => 1,
+						'author_login'  => 1,
+						'author'        => 1,
+					), $args['excess_boost'] )
 				);
-				$boost_phrase_fields = array(
-					'title',
-					'content',
-					'excerpt',
-					'tag.name',
-					'category.name',
-					'author',
+
+				$boost_phrase_fields = $this->_get_caret_boosted_fields(
+					array(
+						'title'         => 1,
+						'content'       => 1,
+						'excerpt'       => 1,
+						'tag.name'      => 1,
+						'category.name' => 1,
+						'author'        => 1,
+					)
 				);
 			} else {
 				$match_fields = $parser->merge_ml_fields(
@@ -878,22 +892,22 @@ class Jetpack_Search {
 						'tag.name'      => 0.1,
 						'category.name' => 0.1,
 					),
-					array(
-						'author_login^0.1',
-						'author^0.1',
-					)
+					$this->_get_caret_boosted_fields( array(
+						'author_login'  => 0.1,
+						'author'        => 0.1,
+					) )
 				);
 
 				$boost_fields = $parser->merge_ml_fields(
-					array(
+					$this->_apply_boosts_multiplier( array(
 						'title'         => 2,
 						'tag.name'      => 1,
 						'category.name' => 1,
-					),
-					array(
-						'author_login',
-						'author',
-					)
+					), $args['excess_boost'] ),
+					$this->_get_caret_boosted_fields( $this->_apply_boosts_multiplier( array(
+						'author_login'  => 1,
+						'author'        => 1,
+					), $args['excess_boost'] ) )
 				);
 
 				$boost_phrase_fields = $parser->merge_ml_fields(
@@ -904,9 +918,9 @@ class Jetpack_Search {
 						'tag.name'      => 1,
 						'category.name' => 1,
 					),
-					array(
-						'author',
-					)
+					$this->_get_caret_boosted_fields( array(
+						'author'        => 1,
+					) )
 				);
 			}
 		} else {
@@ -1138,6 +1152,7 @@ class Jetpack_Search {
 			unset( $es_query_args['sort'] );
 		}
 
+		// Aggregations
 		if ( ! empty( $args['aggregations'] ) ) {
 			$this->add_aggregations_to_es_query_builder( $args['aggregations'], $parser );
 		}
@@ -1621,7 +1636,20 @@ class Jetpack_Search {
 			} // End foreach().
 		} // End foreach().
 
-		return $aggregation_data;
+		/**
+		 * Modify the aggregation filters returned by get_filters().
+		 *
+		 * Useful if you are setting custom filters outside of the supported filters (taxonomy, post_type etc.) and
+		 * want to hook them up so they're returned when you call `get_filters()`.
+		 *
+		 * @module search
+		 *
+		 * @since  6.9.0
+		 *
+		 * @param array    $aggregation_data The array of filters keyed on label.
+		 * @param WP_Query $query            The WP_Query object.
+		 */
+		return apply_filters( 'jetpack_search_get_filters', $aggregation_data, $query );
 	}
 
 	/**
@@ -1763,10 +1791,114 @@ class Jetpack_Search {
 			return;
 		}
 
-		jetpack_tracks_record_event(
+		$tracking = new Automattic\Jetpack\Tracking();
+		$tracking->tracks_record_event(
 			wp_get_current_user(),
 			sprintf( 'jetpack_search_widget_%s', $event['action'] ),
 			$event['widget']
 		);
+	}
+
+	/**
+	 * Moves any active search widgets to the inactive category.
+	 *
+	 * @since 5.9.0
+	 *
+	 * @param string $module Unused. The Jetpack module being disabled.
+	 */
+	public function move_search_widgets_to_inactive( $module ) {
+		if ( ! is_active_widget( false, false, Jetpack_Search_Helpers::FILTER_WIDGET_BASE, true ) ) {
+			return;
+		}
+
+		$sidebars_widgets = wp_get_sidebars_widgets();
+
+		if ( ! is_array( $sidebars_widgets ) ) {
+			return;
+		}
+
+		$changed = false;
+
+		foreach ( $sidebars_widgets as $sidebar => $widgets ) {
+			if ( 'wp_inactive_widgets' === $sidebar || 'orphaned_widgets' === substr( $sidebar, 0, 16 ) ) {
+				continue;
+			}
+
+			if ( is_array( $widgets ) ) {
+				foreach ( $widgets as $key => $widget ) {
+					if ( _get_widget_id_base( $widget ) == Jetpack_Search_Helpers::FILTER_WIDGET_BASE ) {
+						$changed = true;
+
+						array_unshift( $sidebars_widgets['wp_inactive_widgets'], $widget );
+						unset( $sidebars_widgets[ $sidebar ][ $key ] );
+					}
+				}
+			}
+		}
+
+		if ( $changed ) {
+			wp_set_sidebars_widgets( $sidebars_widgets );
+		}
+	}
+
+	/**
+	 * Determine whether a given WP_Query should be handled by ElasticSearch.
+	 *
+	 * @param WP_Query $query The WP_Query object.
+	 *
+	 * @return bool
+	 */
+	public function should_handle_query( $query ) {
+		/**
+		 * Determine whether a given WP_Query should be handled by ElasticSearch.
+		 *
+		 * @module search
+		 *
+		 * @since  5.6.0
+		 *
+		 * @param bool     $should_handle Should be handled by Jetpack Search.
+		 * @param WP_Query $query         The WP_Query object.
+		 */
+		return apply_filters( 'jetpack_search_should_handle_query', $query->is_main_query() && $query->is_search(), $query );
+	}
+
+	/**
+	 * Transforms an array with fields name as keys and boosts as value into
+	 * shorthand "caret" format.
+	 *
+	 * @param array $fields_boost [ "title" => "2", "content" => "1" ]
+	 *
+	 * @return array [ "title^2", "content^1" ]
+	 */
+	private function _get_caret_boosted_fields( array $fields_boost ) {
+		$caret_boosted_fields = array();
+		foreach ( $fields_boost as $field => $boost ) {
+			$caret_boosted_fields[] = "$field^$boost";
+		}
+		return $caret_boosted_fields;
+	}
+
+	/**
+	 * Apply a multiplier to boost values.
+	 *
+	 * @param array $fields_boost [ "title" => 2, "content" => 1 ]
+	 * @param array $fields_boost_multiplier [ "title" => 0.1234 ]
+	 *
+	 * @return array [ "title" => "0.247", "content" => "1.000" ]
+	 */
+	private function _apply_boosts_multiplier( array $fields_boost, array $fields_boost_multiplier ) {
+		foreach( $fields_boost as $field_name => $field_boost ) {
+			if ( isset( $fields_boost_multiplier[ $field_name ] ) ) {
+				$fields_boost[ $field_name ] *= $fields_boost_multiplier[ $field_name ];
+			}
+
+			// Set a floor and format the number as string
+			$fields_boost[ $field_name ] = number_format(
+				max( 0.001, $fields_boost[ $field_name ] ),
+				3, '.', ''
+			);
+		}
+
+		return $fields_boost;
 	}
 }
