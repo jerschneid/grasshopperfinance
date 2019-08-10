@@ -1,0 +1,81 @@
+********************************************************************************
+DUPLICATOR-LITE PACKAGE-LOG: November 12, 2018 2:30 am
+NOTICE: Do NOT post to public sites or forums 
+********************************************************************************
+VERSION:	1.2.52
+WORDPRESS:	4.9.4
+PHP INFO:	7.0.30 | SAPI: fpm-fcgi
+SERVER:		Apache 
+PHP TIME LIMIT: (0) no time limit imposed 
+PHP MAX MEMORY: 2048M (128M default) 
+MEMORY STACK: 4MB 
+
+********************************************************************************
+DATABASE:
+********************************************************************************
+BUILD MODE:   MYSQLDUMP
+MYSQLTIMEOUT: 5000
+MYSQLDUMP:    Is Supported 
+FILTERED: [] 
+RESPONSE: mysqldump: [Warning] Using a password on the command line interface can be insecure.
+ 
+TABLES: total:15 | filtered:0 | create:15 
+SQL CREATED: 20181112_grasshopperfinance_8cb3f84856766f651493_20181112022934_database.sql 
+SQL FILE SIZE: 3.94MB (4130613) 
+SQL FILE TIME: 2018-11-12 02:30:09 
+SQL RUNTIME: 0.22 sec. 
+
+******************************************************************************** 
+ARCHIVE (ZIP): 
+******************************************************************************** 
+ARCHIVE DIR:  /opt/bitnami/apps/wordpress/grasshopperfinance/www.grasshopperfinance.dev.cc 
+ARCHIVE FILE: 20181112_grasshopperfinance_8cb3f84856766f651493_20181112022934_archive.zip 
+FILTERS: *OFF* 
+DIRS:
+	not set 
+FILES:
+	not set 
+EXTS:  not set 
+---------------------------------------- 
+COMPRESSING 
+SIZE:	89.7MB 
+STATS:	Dirs 929 | Files 7,658 
+SQL ADDED: 20181112_grasshopperfinance_8cb3f84856766f651493_20181112022934_database.sql 
+ZipArchive Object
+(
+    [status] => 0
+    [statusSys] => 0
+    [numFiles] => 8587
+    [filename] => /opt/bitnami/apps/wordpress/grasshopperfinance/www.grasshopperfinance.dev.cc/wp-snapshots/tmp/20181112_grasshopperfinance_8cb3f84856766f651493_20181112022934_archive.zip
+    [comment] => 
+)
+ 
+COMPRESSION RESULT: '1' 
+COMPRESSED SIZE: 41.43MB 
+ARCHIVE RUNTIME: 18.71 sec. 
+MEMORY STACK: 6MB 
+
+******************************************************************************** 
+MAKE INSTALLER: 
+******************************************************************************** 
+Build Start 
+Build Finished 
+Preparing for use 
+PACK SIZE:  
+Template parsed with new data 
+Complete [/opt/bitnami/apps/wordpress/grasshopperfinance/www.grasshopperfinance.dev.cc/wp-snapshots/tmp/20181112_grasshopperfinance_8cb3f84856766f651493_20181112022934_installer.php] 
+Added to archive 
+
+******************************************************************************** 
+INTEGRITY CHECKS: 
+******************************************************************************** 
+SQL File: 3.94MB 
+Installer File: 514.24KB 
+Archive File: 41.43MB  
+
+********************************************************************************
+RECORD ID:[1]
+TOTAL PROCESS RUNTIME: 19.31 sec.
+PEAK PHP MEMORY USED: 8MB
+DONE PROCESSING => 20181112_grasshopperfinance November 12, 2018 2:30 am
+ 
