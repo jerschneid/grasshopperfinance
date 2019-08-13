@@ -1,11 +1,3 @@
-[Sat Aug 10 07:59:02.293047 2019] [proxy_fcgi:error] [pid 3301:tid 140065049143040] [client 172.31.30.253:39874] AH01071: Got error '
-
-PHP message: Domain Hostmane: www.personalfinanceclub.com 172.31.35.176\n
-PHP message: Domain Hostmane: personalfinanceclub.com 172.31.35.176\n
-PHP message: Domain Hostmane: www.grasshopperfinance.com 172.31.35.176\n
-PHP message: Domain Hostmane: grasshopperfinance.com 172.31.35.176\n
-PHP message: Domain Hostmane: ec2-52-15-145-215.us-east-2.compute.amazonaws.com 172.31.35.176\n
-PHP message: Domain Hostmane: www.grasshopperfinance.dev.cc 172.31.35.176\nPHP message: WP_ENV_DOMAIN: \nPHP message: 
-
-PHP Fatal error:  Uncaught Exception: Cannot determine current environment domain, make sure this is set in wp-config.env.php in /opt/bitnami/apps/wordpress/personalfinanceclub/www.grasshopperfinance.dev.cc/wp-config.load.php:130\nStack trace:\n#0 /opt/bitnami/apps/wordpress/personalfinanceclub/www.grasshopperfinance.dev.cc/wp-config.load.php(154): s24_load_environment_config()\n#1 /opt/bitnami/apps/wordpress/personalfinanceclub/www.grasshopperfinance.dev.cc/wp-config.php(25): require_once('/opt/bitnami/ap...')\n#2 /opt/bitnami/apps/wordpress/personalfinanceclub/www.grasshopperfinance.dev.cc/wp-load.php(37): require_once('/opt/bitnami/ap...')\n#3 /opt/bitnami/apps/wordpress/personalfinanceclub/www.grasshopperfinance.dev.cc/wp-blog-header.php(13): require_once('/opt/bitnami/ap...')\n#4 /opt/bitnami/apps/wordpress/personalfinanceclub/www.grasshopperfinance.dev.cc/index.php(17): require('/opt/bitnami/ap...')\n#5 {main}\n  thrown in /opt/bitnami/apps/wordpress/personalfinanceclub/www.grasshopperfinance.d...\n'
-
+<Location /server-status>
+	SetHandler server-status
+</Location>
