@@ -1,0 +1,175 @@
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Instagram New Line Caption Tool</title>
+    <link rel="icon" 
+      type="image/png" 
+      href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABGdBTUEAAK/INwWK6QAAABl0RVh0U29mdHdhcmUAQWRvYmUgSW1hZ2VSZWFkeXHJZTwAAAKeSURBVHjaYvz//z8DCNTU1DDAAEiMm5ePgZWVjYGTi4tBQFCI4cnjx3qbN67Pz8wrLBEQEHzv4+YIVsvEgAMwAuE/oEG/fv1k+PrlC/vaNas7jh09knTs8EH3r58/wdWx4DSAkZGBi5OT4dmzZ8pTlk9c8vv3L+bc/AJrAyOTYyDXYRgA8wpMM9Bm7vOHz0VdvXLF38zcfLq5heUiNjY2hrevX4LlMQwQFZOAOp0B5HSme/fuGQoLC9+MjY8PZGRk+g10icrlSxdDPr5/L+UfHDoZqOw2igG8/AKQQGFiYvjy5Yvgnj27GkVFRG7dvXPb4/PnLwK///zmv3vnjuP79+8l/zMyilWUFkWgGPDqxTOEs1hY3n7+9ElYTEzsu7Wtbee/v39/SkhI/li2bOmiK1euuCWmpOdheIGDgxPufxAGBgmLtrbOWVkZuY9v375heP/+AxMwKpXcPbymS0pJv8IwgAUYQDAv/Pjxg//792/Cp0+d8rt27arpp4+fpH/8/CHw8eNHKVZWlqdvX7/ADEQWFlYwDQrpJ4+faP/+/ZtdTV1jCx8/7x1WFtbXQC+8//r182c+Pv5f7968xjQAlOJAgIubm+HihfOhQM3HAoNDFz+4fweUkBh4eLiBLvsOSWJI0QhPiSzMLAzsbOwMnz9+Ejp37qyfm4fnpL///zFwcHIx/P37l+Hfv38M/4EYmGJQEhzcACZmZqDtPAxbNm8sUVJSvmLr4LyLnZ2TQUpGnoEdGMDICQ2rAaAMc//BfePz5876ZuTk5zIDDWRhZWXgBHqJB5h0/4Ftx2PA12/fhVYtX1KVX1yeraSi+oiRiZmBjZ2DgR2IQS7DBeCBuHPrxgBra+suY1Ozk3/+/AVnZVjsABMWht9hACDAAG3LBLVFlElyAAAAAElFTkSuQmCC">
+
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+    <link href="https://netdna.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" rel="stylesheet">
+
+    <script type="text/javascript">
+
+    	$(function () {
+    		$("#copy_to_clipboard").click(CopyToClipboardClick);
+    		$("#after").focus(SelectAll);
+    		$("#before").focus(SelectAll);
+    		$("#caption").on('change keyup paste', CaptionChanged);
+    	});
+
+    	function CaptionChanged()
+    	{
+    		var length = $('#caption').val().length;
+    		$('#caption_length').html(length);
+
+    		if(length > 2200)
+    		{
+    			$('#caption_length').addClass("boldRed");
+    		}
+    		else
+    		{
+    			$('#caption_length').removeClass("boldRed");
+    		}
+
+    	}
+
+    	function CopyToClipboardClick() 
+    	{
+
+    		var caption = $('#caption').val();
+
+    		caption = caption.replace(/\x0A/g, "\u200E" + "\x0A");
+
+    		console.log(caption);
+    		doCopyToClipboard(caption);
+
+    		$("#copy_to_clipboard").addClass("btn-success").removeClass("btn-primary").html("Success!");
+
+    		setTimeout(ResetButton, 1000);
+
+    	}
+
+    	function ResetButton()
+    	{
+    		$("#copy_to_clipboard").addClass("btn-primary").removeClass("btn-success").html("Copy to Clipboard");
+
+    	}
+
+		const doCopyToClipboard = str => {
+			const el = document.createElement('textarea');  // Create a <textarea> element
+			el.value = str;                                 // Set its value to the string that you want copied
+			el.setAttribute('readonly', '');                // Make it readonly to be tamper-proof
+			el.style.position = 'absolute';                 
+			el.style.left = '-9999px';                      // Move outside the screen to make it invisible
+			document.body.appendChild(el);                  // Append the <textarea> element to the HTML document
+			const selected =            
+			document.getSelection().rangeCount > 0        // Check if there is any content selected previously
+			  ? document.getSelection().getRangeAt(0)     // Store selection if found
+			  : false;                                    // Mark as false to know no selection existed before
+			el.select();                                    // Select the <textarea> content
+			document.execCommand('copy');                   // Copy - only works as a result of a user action (e.g. click events)
+			document.body.removeChild(el);                  // Remove the <textarea> element
+			if (selected) 
+			{                                 // If a selection existed before copying
+				document.getSelection().removeAllRanges();    // Unselect everything on the HTML document
+				document.getSelection().addRange(selected);   // Restore the original selection
+			}
+		};    	
+
+    	function SelectAll() {
+    		var $this = $(this);
+    		$this.select();
+
+    		// Work around Chrome's little problem
+    		$this.mouseup(function () {
+    			// Prevent further mouseup intervention
+    			$this.unbind("mouseup");
+    			return false;
+    		});
+    	}
+
+    	function PseudoLine(before) {
+    		var after = PseudoWord(before);
+    		var increasePercent = parseInt($('#increaselengthpercent').val());
+
+    		var extraLength = Math.round(before.length * increasePercent / 100.0);
+
+    		var extraWords = " lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc eget urna laoreet, accumsan felis at, dapibus elit. In ut tempus mauris. Sed eget sagittis arcu, in condimentum purus. Curabitur vitae congue elit.";
+
+    		after += PseudoWord(extraWords.substr(0, extraLength));
+
+    		if ($('#addbrackets').prop('checked')) {
+
+    			after = "[!!! " + after + " !!!]";
+    		}
+
+    		return after;
+    	}
+
+    </script>
+
+    <style type="text/css">
+        textarea {
+        	width: 100%;
+        	height: 200px;
+        }
+
+        #caption_section
+        {
+        	max-width: 300px;
+        	margin: 20px auto;
+        }
+
+        .boldRed
+        {
+        	font-weight: bold;
+        	color: red;
+        }
+
+        .jumbotron {
+        	background-color: #d9edf7;
+/*            padding-top: 20px;
+            padding-bottom: 20px;
+            
+            border-bottom: solid 2px #bce8f1;
+*/        
+        }
+    </style>
+
+</head>
+<body>
+
+    <div class="jumbotron text-center">
+        <h1>Instagram Line Break Caption Tool</h1>
+        <h4>Create new lines and paragraph breaks for Instagram captions</h4>
+    </div>
+    <div class="container-sm">
+        <div class="text-center">
+            <textarea id="caption" placeholder="Write your caption here..."></textarea>
+            <br />
+            <button type="button" class="btn btn-lg btn-primary" id="copy_to_clipboard">Copy to Clipboard</button>
+        </div>
+        <div id="caption_section" class="alert alert-success text-center">
+            <h4 style="color: #aaa; margin-top: 0">CAPTION LENGTH</h4>
+            <div><span id="caption_length">0</span>&nbsp;/&nbsp;2200</div>
+        </div>
+        <div>
+            <div class="alert alert-info"><strong>Helpful?</strong> Please help others find us by giving us a shout out on your blog, twitter or whatever!</div>
+        </div>
+        <div>
+            <div>Also check out <a href="https://www.personalfinanceclub.com">Personal Finance Club</a>!</div>
+
+        </div>
+
+    </div>
+
+
+<script>
+
+</script>
+</body>
+</html>
